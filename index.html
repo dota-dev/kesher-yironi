@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="קשר עירוני - רשת הקהילות של נשות ירושלים. פלטפורמה לחיבור קהילתי, עזרה הדדית ועדכונים מקומיים בשכונות ירושלים.">
+  <title>קשר עירוני | רשת הקהילות של נשות ירושלים</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            whatsapp: '#25D366',
+            jerusalem: '#004182',
+          },
+          fontFamily: {
+            heebo: ['Heebo', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Heebo', sans-serif; }
+    .modal-open { overflow: hidden; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+  <!-- Header / Hero -->
+  <header class="relative overflow-hidden bg-white">
+    <div class="absolute inset-0 bg-gradient-to-b from-jerusalem/[0.04] to-transparent pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-l from-whatsapp to-jerusalem" aria-hidden="true"></div>
+
+    <div class="max-w-4xl mx-auto px-6 pt-12 pb-16 sm:pt-16 sm:pb-20 text-center">
+      <div class="flex justify-center mb-8">
+        <div class="relative">
+          <div class="absolute -inset-3 rounded-3xl bg-gradient-to-br from-whatsapp/10 to-jerusalem/10 blur-sm" aria-hidden="true"></div>
+          <img
+            src="public/logo.png"
+            alt="לוגו קשר עירוני - רשת הקהילות של נשות ירושלים"
+            class="relative w-40 h-40 sm:w-48 sm:h-48 object-contain drop-shadow-md"
+            width="192"
+            height="192"
+          >
+        </div>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-jerusalem leading-tight mb-4">
+קשר עירוני / קהילות נשים בווצאפ לפי שכונות 
+      </h1>
+
+      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">
+        הפלטפורמה המובילה לחיבור, עזרה הדדית ועדכונים מקומיים בשכונות ירושלים.
+      </p>
+
+      <a
+        href="https://wa.me/972559880903?text=מעוניינת+לבחור+קבוצה+באזורי"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center justify-center gap-3 sm:gap-4 w-full max-w-xl mx-auto px-6 sm:px-8 py-4 sm:py-5 rounded-2xl bg-whatsapp text-white font-semibold text-base sm:text-lg shadow-lg shadow-whatsapp/30 hover:bg-[#20bd5a] hover:shadow-xl hover:shadow-whatsapp/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-whatsapp/40 focus-visible:ring-offset-2"
+      >
+        <span class="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-white/20 group-hover:bg-white/25 transition-colors" aria-hidden="true">
+          <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.882 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </span>
+        <span>התחברי לבוט הווטסאפ הרשמי ומצאי את השכונה שלך</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- About -->
+    <section id="about" class="py-16 sm:py-20 bg-slate-50">
+      <div class="max-w-3xl mx-auto px-6 text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-jerusalem mb-6">אודות העסק</h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          קשר עירוני מפעילה ומנהלת רשת קבוצות קהילתיות מבוססות מיקום עבור נשים בירושלים, במטרה לחזק את החיבור המקומי, להחליף מידע חיוני ולהעניק פלטפורמה בטוחה לעזרה הדדית.
+        </p>
+      </div>
+    </section>
+
+    <!-- Official Business Info -->
+    <section id="business-info" class="py-16 sm:py-20 bg-white">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-10">
+          <h2 class="text-xl sm:text-2xl font-bold text-jerusalem mb-3">פרטי העסק הרשמיים</h2>
+          <p class="text-slate-500 text-sm sm:text-base">מידע רשמי ליצירת קשר ולאימות עסקי</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4 sm:gap-5">
+          <article class="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6 hover:border-jerusalem/20 hover:shadow-md transition-shadow">
+            <h3 class="text-xs font-semibold text-whatsapp uppercase tracking-wide mb-2">שם העסק הרשמי</h3>
+            <p class="text-lg font-semibold text-jerusalem">קשר עירוני</p>
+          </article>
+
+          <article class="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6 hover:border-jerusalem/20 hover:shadow-md transition-shadow">
+            <h3 class="text-xs font-semibold text-whatsapp uppercase tracking-wide mb-2">סוג עוסק</h3>
+            <p class="text-lg font-medium text-slate-800">[placeholder: עוסק מורשה / פטור]</p>
+          </article>
+
+          <article class="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6 hover:border-jerusalem/20 hover:shadow-md transition-shadow">
+            <h3 class="text-xs font-semibold text-whatsapp uppercase tracking-wide mb-2">מספר עוסק / ח.פ</h3>
+            <p class="text-lg font-medium text-slate-800 font-mono" dir="ltr">[placeholder: מספר עוסק]</p>
+          </article>
+
+          <article class="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6 hover:border-jerusalem/20 hover:shadow-md transition-shadow">
+            <h3 class="text-xs font-semibold text-whatsapp uppercase tracking-wide mb-2">כתובת רשמית</h3>
+            <p class="text-lg font-medium text-slate-800">ירושלים, ישראל</p>
+          </article>
+
+          <article class="sm:col-span-2 rounded-2xl border border-slate-200 bg-gradient-to-br from-jerusalem/5 to-whatsapp/5 p-5 sm:p-6 hover:shadow-md transition-shadow">
+            <h3 class="text-xs font-semibold text-whatsapp uppercase tracking-wide mb-2">אימייל ליצירת קשר</h3>
+            <p class="text-lg font-medium text-slate-800">
+              <a href="mailto:contact@example.com" class="text-jerusalem hover:text-whatsapp transition-colors underline-offset-2 hover:underline" dir="ltr">
+                [placeholder: מייל ליצירת קשר]
+              </a>
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-jerusalem text-white py-10 sm:py-12">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <p class="text-sm text-white/80 mb-6">© 2026 קשר עירוני. כל הזכויות שמורות.</p>
+
+      <nav class="flex flex-wrap justify-center gap-4 sm:gap-8" aria-label="קישורים משפטיים">
+        <button
+          type="button"
+          id="open-terms"
+          class="text-sm sm:text-base font-medium text-white/90 hover:text-whatsapp transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2 focus-visible:ring-offset-jerusalem rounded"
+        >
+          תקנון ותנאי שימוש
+        </button>
+        <span class="text-white/30 hidden sm:inline" aria-hidden="true">|</span>
+        <button
+          type="button"
+          id="open-privacy"
+          class="text-sm sm:text-base font-medium text-white/90 hover:text-whatsapp transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2 focus-visible:ring-offset-jerusalem rounded"
+        >
+          מדיניות פרטיות
+        </button>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Terms Modal -->
+  <div
+    id="terms-modal"
+    class="fixed inset-0 z-50 hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="terms-title"
+    aria-hidden="true"
+  >
+    <div class="absolute inset-0 bg-jerusalem/60 backdrop-blur-sm" data-close-modal></div>
+    <div class="relative flex min-h-full items-center justify-center p-4 sm:p-6">
+      <div class="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-2xl bg-white shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4 shrink-0">
+          <h2 id="terms-title" class="text-lg sm:text-xl font-bold text-jerusalem">תקנון ותנאי שימוש</h2>
+          <button
+            type="button"
+            class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-jerusalem transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp"
+            data-close-modal
+            aria-label="סגור"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="overflow-y-auto px-6 py-5 text-sm sm:text-base text-slate-600 leading-relaxed space-y-4">
+          <p><strong class="text-slate-800">עדכון אחרון:</strong> מאי 2026</p>
+          <p>
+            ברוכות הבאות ל"קשר עירוני". השימוש באתר זה ובשירותי הפלטפורמה הקהילתית שלנו כפוף לתנאים המפורטים להלן. גלישה באתר ו/או שימוש בשירותים מהווים הסכמה מלאה לתנאים אלה.
+          </p>
+          <h3 class="font-semibold text-jerusalem">1. תיאור השירות</h3>
+          <p>
+            קשר עירוני מפעילה רשת קבוצות קהילתיות מבוססות מיקום עבור נשים בירושלים, לרבות ערוצי תקשורת דיגיטליים (כולל WhatsApp Business API) לצורך חיבור קהילתי, עדכונים מקומיים ועזרה הדדית.
+          </p>
+          <h3 class="font-semibold text-jerusalem">2. שימוש מותר</h3>
+          <p>
+            המשתמשות מתחייבות להשתמש בשירותים למטרות קהילתיות וחוקיות בלבד, בכבוד הדדי, וללא פרסום ספאם, הטרדה, תוכן פוגעני או הפרת זכויות צד שלישי.
+          </p>
+          <h3 class="font-semibold text-jerusalem">3. הרשמה וקבוצות</h3>
+          <p>
+            הצטרפות לקבוצות תתאפשר באמצעות הבוט הרשמי של העסק, בכפוף לאימות זהות ולכללי הקבוצה. העסק שומר לעצמו את הזכות לאשר, לדחות או להסיר משתמשות מהשירות בהתאם למדיניות הקהילה.
+          </p>
+          <h3 class="font-semibold text-jerusalem">4. קניין רוחני</h3>
+          <p>
+            כל התכנים, הלוגו, העיצוב והמותג "קשר עירוני" הם קניינה של העסק. אין להעתיק, לשכפל או לעשות שימוש מסחרי ללא אישור בכתב.
+          </p>
+          <h3 class="font-semibold text-jerusalem">5. הגבלת אחריות</h3>
+          <p>
+            השירות ניתן "כמות שהוא". העסק אינה אחראית לתוכן שמפרסם משתמשות בקבוצות, ואינה מתחייבת לזמינות רציפה של כל ערוץ תקשורת. המידע בקבוצות אינו מהווה ייעוץ מקצועי (רפואי, משפטי וכו').
+          </p>
+          <h3 class="font-semibold text-jerusalem">6. שינויים בתקנון</h3>
+          <p>
+            העסק רשאית לעדכן תקנון זה מעת לעת. המשך שימוש בשירות לאחר עדכון מהווה הסכמה לגרסה המעודכנת.
+          </p>
+          <h3 class="font-semibold text-jerusalem">7. יצירת קשר</h3>
+          <p>
+            לשאלות בנוגע לתקנון: [placeholder: מייל ליצירת קשר]
+          </p>
+        </div>
+        <div class="border-t border-slate-200 px-6 py-4 shrink-0">
+          <button
+            type="button"
+            class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-jerusalem text-white font-medium hover:bg-jerusalem/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2"
+            data-close-modal
+          >
+            סגור
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Modal -->
+  <div
+    id="privacy-modal"
+    class="fixed inset-0 z-50 hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="privacy-title"
+    aria-hidden="true"
+  >
+    <div class="absolute inset-0 bg-jerusalem/60 backdrop-blur-sm" data-close-modal></div>
+    <div class="relative flex min-h-full items-center justify-center p-4 sm:p-6">
+      <div class="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-2xl bg-white shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4 shrink-0">
+          <h2 id="privacy-title" class="text-lg sm:text-xl font-bold text-jerusalem">מדיניות פרטיות</h2>
+          <button
+            type="button"
+            class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-jerusalem transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp"
+            data-close-modal
+            aria-label="סגור"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="overflow-y-auto px-6 py-5 text-sm sm:text-base text-slate-600 leading-relaxed space-y-4">
+          <p><strong class="text-slate-800">עדכון אחרון:</strong> מאי 2026</p>
+          <p>
+            קשר עירוני ("העסק", "אנחנו") מחויבת להגן על פרטיות המשתמשות. מדיניות זו מסבירה אילו נתונים נאספים, כיצד הם משמשים, ומהן זכויותיכן — בפרט בהקשר של שימוש ב-WhatsApp Business API ובפלטפורמות Meta.
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">1. מי אחראי לעיבוד הנתונים</h3>
+          <p>
+            בעלת השליטה בנתונים: קשר עירוני, ירושלים, ישראל. לפניות בנושא פרטיות: [placeholder: מייל ליצירת קשר]
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">2. אילו נתונים אנו אוספים</h3>
+          <ul class="list-disc list-inside space-y-1 mr-2">
+            <li>מספר טלפון נייד (לצורך הצטרפות לקבוצות ותקשורת בבוט הרשמי)</li>
+            <li>שם תצוגה / שם פרטי (כפי שמסופק על ידי המשתמשת)</li>
+            <li>שכונה / אזור מגורים בירושלים (לשיוך לקבוצה המתאימה)</li>
+            <li>תוכן הודעות שנשלחות לבוט או בקבוצות (לצורך תפעול השירות)</li>
+            <li>נתוני שימוש טכניים (לוגים, חותמות זמן, סטטוס משלוח הודעות)</li>
+          </ul>
+
+          <h3 class="font-semibold text-jerusalem">3. מטרות השימוש בנתונים</h3>
+          <p>
+            הנתונים משמשים אך ורק ל: הפעלת רשת הקבוצות הקהילתיות; אימות והצטרפות לקבוצות; שליחת עדכונים רלוונטיים; מניעת שימוש לרעה; עמידה בדרישות חוק ומדיניות Meta/WhatsApp.
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">4. WhatsApp ו-Meta</h3>
+          <p>
+            השירות משתמש ב-WhatsApp Business API של Meta. עיבוד מסוים של נתונים (כגון מסירת הודעות) מתבצע על ידי Meta בהתאם ל<a href="https://www.whatsapp.com/legal/privacy-policy" class="text-jerusalem underline hover:text-whatsapp" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות של WhatsApp</a>. איננו משתמשים בנתונים שלכן למטרות פרסום או מכירה לצדדים שלישיים.
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">5. שיתוף עם צדדים שלישיים</h3>
+          <p>
+            <strong class="text-slate-800">איננו מוכרים, משכירים או משתפים את הנתונים האישיים שלכן עם צדדים שלישיים למטרות שיווק.</strong> שיתוף מוגבל עשוי להתבצע רק עם: ספקי תשתית טכנולוגית (אירוח, API) הנדרשים להפעלת השירות; רשויות חוק ככל שנדרש על פי דין.
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">6. אחסון ואבטחה</h3>
+          <p>
+            הנתונים נשמרים בשרתים מאובטחים, בגישה מוגבלת לצוות מורשה בלבד. אנו נוקטים באמצעי אבטחה סבירים (הצפנה בתעבורה, בקרת גישה) למניעת גישה בלתי מורשית.
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">7. משך שמירת הנתונים</h3>
+          <p>
+            נשמור נתונים כל עוד החשבון/ההשתתפות פעילים, ולאחר מכן למשך הנדרש לצורכי תפעול, חוק או מחלוקות — ולא יאוחר מהנדרש בדין.
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">8. זכויותיכן</h3>
+          <p>
+            בהתאם לחוק הגנת הפרטיות, התשמ"א-1981, עומדות לכן זכויות עיון, תיקון, מחיקה והתנגדות לעיבוד — בכפוף לחריגים הקבועים בחוק. ניתן לבקש הסרה מהקבוצות ומחיקת נתונים בפנייה לכתובת האימייל לעיל.
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">9. עוגיות (Cookies)</h3>
+          <p>
+            אתר זה עשוי להשתמש בעוגיות טכניות בסיסיות לשיפור חוויית הגלישה. איננו משתמשים בעוגיות מעקב לפרסום בצד ג'.
+          </p>
+
+          <h3 class="font-semibold text-jerusalem">10. עדכונים למדיניות</h3>
+          <p>
+            מדיניות זו עשויה להתעדכן. שינוי מהותי יפורסם באתר זה עם ציון תאריך העדכון.
+          </p>
+        </div>
+        <div class="border-t border-slate-200 px-6 py-4 shrink-0">
+          <button
+            type="button"
+            class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-whatsapp text-white font-medium hover:bg-whatsapp/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-jerusalem focus-visible:ring-offset-2"
+            data-close-modal
+          >
+            סגור
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const termsModal = document.getElementById('terms-modal');
+      const privacyModal = document.getElementById('privacy-modal');
+      const openTerms = document.getElementById('open-terms');
+      const openPrivacy = document.getElementById('open-privacy');
+
+      let activeModal = null;
+      let previousFocus = null;
+
+      function openModal(modal) {
+        if (activeModal) closeModal(activeModal);
+        previousFocus = document.activeElement;
+        activeModal = modal;
+        modal.classList.remove('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        const closeBtn = modal.querySelector('button[data-close-modal]');
+        if (closeBtn) closeBtn.focus();
+      }
+
+      function closeModal(modal) {
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        if (activeModal === modal) activeModal = null;
+        if (previousFocus && typeof previousFocus.focus === 'function') {
+          previousFocus.focus();
+        }
+      }
+
+      function handleBackdropClick(e) {
+        if (e.target.hasAttribute('data-close-modal')) {
+          const modal = e.target.closest('[role="dialog"]');
+          if (modal) closeModal(modal);
+        }
+      }
+
+      openTerms.addEventListener('click', () => openModal(termsModal));
+      openPrivacy.addEventListener('click', () => openModal(privacyModal));
+
+      document.querySelectorAll('[data-close-modal]').forEach((el) => {
+        el.addEventListener('click', handleBackdropClick);
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && activeModal) {
+          closeModal(activeModal);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
