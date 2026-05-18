@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="קשר עירוני - רשת הקהילות של נשות ירושלים. פלטפורמה לחיבור קהילתי, עזרה הדדית ועדכונים מקומיים בשכונות ירושלים.">
-  <title>קשר עירוני | רשת הקהילות של נשות ירושלים</title>
+  <meta name="description" content="קשר עירוני – רשת קבוצות הווטסאפ של ירושלים. מצאי את הקהילה שלך בשכונה.">
+  <title>קשר עירוני | רשת קהילות ירושלים</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -16,11 +16,15 @@
       theme: {
         extend: {
           colors: {
+            brand: '#004182',
             whatsapp: '#25D366',
-            jerusalem: '#004182',
+            mint: '#E8F5F0',
+            cream: '#FAF8F5',
           },
-          fontFamily: {
-            heebo: ['Heebo', 'sans-serif'],
+          fontFamily: { heebo: ['Heebo', 'sans-serif'] },
+          boxShadow: {
+            glass: '0 8px 32px rgba(0, 65, 130, 0.08)',
+            card: '0 4px 24px rgba(0, 65, 130, 0.06)',
           },
         },
       },
@@ -30,328 +34,850 @@
   <style>
     html { scroll-behavior: smooth; }
     body { font-family: 'Heebo', sans-serif; }
-    .modal-open { overflow: hidden; }
+    body.modal-open { overflow: hidden; }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+    }
+
+    .filter-btn.active {
+      background: #004182;
+      color: white;
+      border-color: #004182;
+    }
+
+    .nb-card.hidden-card { display: none; }
+
+    .nav-scrolled {
+      box-shadow: 0 4px 20px rgba(0, 65, 130, 0.08);
+    }
+
+    #hero {
+      background-color: #fcfbfa;
+    }
+
+    .hero-map-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.05;
+      overflow: hidden;
+      background-image: url('assets/map_bg.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hero-map-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Cg fill='none' stroke='%23004182' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M-30 210 C140 160 310 230 470 185 S760 140 940 205 L1240 225'/%3E%3Cpath d='M20 480 C210 420 390 510 580 445 S890 390 1180 470'/%3E%3Cpath d='M180 40 C220 210 160 390 210 560 S290 720 270 860'/%3E%3Cpath d='M520 25 C560 200 490 370 540 530 S630 690 610 840'/%3E%3Cpath d='M780 70 C820 240 750 410 800 580 S880 730 860 880'/%3E%3Cpath d='M90 320 C360 290 540 340 740 300 S980 265 1210 315'/%3E%3Cpath d='M340 230 C390 410 360 580 420 750'/%3E%3Cpath d='M680 190 C730 360 700 530 760 680'/%3E%3Cpath d='M450 120 C480 280 440 420 470 600'/%3E%3Cpath d='M260 520 C420 480 560 540 720 500'/%3E%3C/g%3E%3Cg fill='%23004182' fill-opacity='0.07' stroke='none'%3E%3Cpath d='M240 220 395 188 438 298 283 330Z'/%3E%3Cpath d='M545 255 705 222 748 352 588 385Z'/%3E%3Cpath d='M820 280 980 248 1025 378 865 412Z'/%3E%3Cpath d='M310 420 455 395 488 515 343 540Z'/%3E%3Cpath d='M600 450 755 418 798 548 643 582Z'/%3E%3Cpath d='M150 340 235 318 258 405 173 428Z'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hero-pins-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-pin {
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+      text-decoration: none;
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
+    @media (min-width: 768px) {
+      .hero-pin {
+        pointer-events: auto;
+      }
+
+      .hero-pin:hover {
+        z-index: 1;
+      }
+    }
+
+    .hero-pin--left {
+      transform: translate(-50%, -100%);
+      animation: hero-pin-float-left 5.5s ease-in-out infinite;
+    }
+
+    .hero-pin--right {
+      left: auto;
+      transform: translate(50%, -100%);
+      animation: hero-pin-float-right 5.5s ease-in-out infinite;
+    }
+
+    .hero-pin-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+      transform-origin: center bottom;
+      transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1), filter 0.35s ease, opacity 0.3s ease;
+    }
+
+    .hero-pin--left:hover,
+    .hero-pin--right:hover {
+      animation-play-state: paused;
+    }
+
+    .hero-pin:hover .hero-pin-wrap {
+      transform: scale(1.12) !important;
+      opacity: 1 !important;
+      filter: drop-shadow(0 10px 20px rgba(16, 185, 129, 0.28));
+    }
+
+    .hero-pin-label {
+      display: block;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      color: #005088;
+      font-weight: 600;
+      white-space: nowrap;
+      line-height: 1.25;
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 1),
+        0 0 18px rgba(255, 255, 255, 0.9),
+        0 1px 2px rgba(255, 255, 255, 0.95);
+      transition: color 0.3s ease;
+    }
+
+    .hero-pin:hover .hero-pin-label { color: #004182; }
+
+    .hero-pin-icon {
+      display: block;
+      width: 2rem;
+      height: 2.65rem;
+      color: #10b981;
+      filter: drop-shadow(0 2px 5px rgba(16, 185, 129, 0.4));
+      transition: color 0.3s ease, filter 0.35s ease;
+    }
+
+    .hero-pin:hover .hero-pin-icon {
+      color: #059669;
+      filter: drop-shadow(0 4px 10px rgba(5, 150, 105, 0.45));
+    }
+
+    @keyframes hero-pin-float-left {
+      0%, 100% { transform: translate(-50%, -100%); }
+      50% { transform: translate(-50%, calc(-100% - 6px)); }
+    }
+
+    @keyframes hero-pin-float-right {
+      0%, 100% { transform: translate(50%, -100%); }
+      50% { transform: translate(50%, calc(-100% - 6px)); }
+    }
+
+    /* מובייל: פיזור רך על כל שטח ה-Hero (שכבה אחורית) */
+    .hero-pin--scatter {
+      transform: translate(-50%, -100%);
+      animation: hero-pin-float-scatter 6s ease-in-out infinite;
+    }
+
+    @keyframes hero-pin-float-scatter {
+      0%, 100% { transform: translate(-50%, -100%); }
+      50% { transform: translate(-50%, calc(-100% - 4px)); }
+    }
+
+    @media (max-width: 767px) {
+      .hero-pin-label {
+        max-width: 4.25rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.58rem;
+      }
+
+      .hero-pin-icon {
+        width: 1.1rem;
+        height: 1.45rem;
+      }
+
+      .hero-pin--scatter {
+        animation: hero-pin-float-scatter 7s ease-in-out infinite;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .hero-pin--scatter {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-pin--left,
+      .hero-pin--right,
+      .hero-pin--scatter { animation: none; }
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-cream text-slate-800 antialiased">
 
-  <!-- Header / Hero -->
-  <header class="relative overflow-hidden bg-white">
-    <div class="absolute inset-0 bg-gradient-to-b from-jerusalem/[0.04] to-transparent pointer-events-none" aria-hidden="true"></div>
-    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-l from-whatsapp to-jerusalem" aria-hidden="true"></div>
-
-    <div class="max-w-4xl mx-auto px-6 pt-12 pb-16 sm:pt-16 sm:pb-20 text-center">
-      <div class="flex justify-center mb-8">
-        <div class="relative">
-          <div class="absolute -inset-3 rounded-3xl bg-gradient-to-br from-whatsapp/10 to-jerusalem/10 blur-sm" aria-hidden="true"></div>
-          <img
-            src="assets/logo.png"
-            alt="לוגו קשר עירוני - רשת הקהילות של נשות ירושלים"
-            class="relative w-40 h-40 sm:w-48 sm:h-48 object-contain drop-shadow-md"
-            width="192"
-            height="192"
-          >
-        </div>
-      </div>
-
-      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-jerusalem leading-tight mb-4">
-קשר עירוני / קהילות נשים בווצאפ לפי שכונות 
-      </h1>
-
-      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">
-        הפלטפורמה המובילה לחיבור, עזרה הדדית ועדכונים מקומיים בשכונות ירושלים.
-      </p>
-
-      <a
-        href="https://wa.me/972559880903?text=מעוניינת+לבחור+קבוצה+באזורי"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group inline-flex items-center justify-center gap-3 sm:gap-4 w-full max-w-xl mx-auto px-6 sm:px-8 py-4 sm:py-5 rounded-2xl bg-whatsapp text-white font-semibold text-base sm:text-lg shadow-lg shadow-whatsapp/30 hover:bg-[#20bd5a] hover:shadow-xl hover:shadow-whatsapp/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-whatsapp/40 focus-visible:ring-offset-2"
-      >
-        <span class="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-white/20 group-hover:bg-white/25 transition-colors" aria-hidden="true">
-          <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.882 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </span>
-        <span>התחברי לבוט הווטסאפ הרשמי ומצאי את השכונה שלך</span>
+  <!-- ========== NAVBAR ========== -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-brand/5 transition-shadow duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-[4.5rem] flex items-center justify-between gap-4">
+      <a href="#" class="flex items-center gap-2.5 shrink-0">
+        <img src="assets/logo.png" alt="קשר עירוני" class="h-10 w-10 sm:h-11 sm:w-11 object-contain" width="44" height="44">
+        <span class="font-bold text-brand text-base sm:text-lg">קשר עירוני</span>
       </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center justify-center gap-2" aria-label="ניווט ראשי">
+        <a href="#about" class="px-3 py-2 text-sm text-slate-600 hover:text-brand rounded-lg hover:bg-brand/5 transition-colors">אודות</a>
+        <a href="#groups" class="px-3 py-2 text-sm text-slate-600 hover:text-brand rounded-lg hover:bg-brand/5 transition-colors">מפת הקבוצות</a>
+        <a href="#contact" class="px-3 py-2 text-sm text-slate-600 hover:text-brand rounded-lg hover:bg-brand/5 transition-colors">צור קשר</a>
+      </nav>
+
+      <!-- Mobile menu button -->
+      <button type="button" id="menu-toggle" class="md:hidden p-2 rounded-lg text-brand hover:bg-brand/5" aria-label="תפריט" aria-expanded="false">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
     </div>
+
+    <!-- Mobile nav -->
+    <nav id="mobile-menu" class="hidden md:hidden border-t border-brand/5 bg-white/95 px-4 py-3 flex flex-col gap-1.5" aria-label="ניווט נייד">
+      <a href="#about" class="mobile-nav-link px-3 py-2.5 text-sm rounded-lg hover:bg-brand/5">אודות</a>
+      <a href="#groups" class="mobile-nav-link px-3 py-2.5 text-sm rounded-lg hover:bg-brand/5">מפת הקבוצות</a>
+      <a href="#contact" class="mobile-nav-link px-3 py-2.5 text-sm rounded-lg hover:bg-brand/5">צור קשר</a>
+    </nav>
   </header>
 
-  <main>
-    <!-- About -->
-    <section id="about" class="py-16 sm:py-20 bg-slate-50">
-      <div class="max-w-3xl mx-auto px-6 text-center">
-        <h2 class="text-xl sm:text-2xl font-bold text-jerusalem mb-6">אודות העסק</h2>
-        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
-          קשר עירוני מפעילה ומנהלת רשת קבוצות קהילתיות מבוססות מיקום עבור נשים בירושלים, במטרה לחזק את החיבור המקומי, להחליף מידע חיוני ולהעניק פלטפורמה בטוחה לעזרה הדדית.
-        </p>
+  <main class="pt-16 sm:pt-[4.5rem]">
+
+    <!-- ========== HERO – ענן סיכות מיקום (נתונים מ-groups.json) ========== -->
+    <section id="hero" class="relative isolate w-full overflow-hidden min-h-[440px] sm:min-h-[520px] md:min-h-[640px] lg:min-h-[680px]" aria-label="מסך כניסה">
+      <div class="hero-map-bg" aria-hidden="true"></div>
+      <div id="hero-pins" class="hero-pins-layer" aria-live="polite"></div>
+
+      <div class="relative z-10 flex flex-col items-center justify-center min-h-[inherit] px-4 sm:px-6 md:px-8 py-14 sm:py-20 md:py-24 text-center max-w-4xl mx-auto">
+        <div id="hero-content" class="relative z-10 pointer-events-none w-full">
+          <p class="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 mb-5 sm:mb-8 rounded-full bg-white/80 border border-brand/10 text-xs sm:text-sm font-medium text-brand shadow-sm backdrop-blur-sm">
+            <span class="w-2 h-2 rounded-full bg-whatsapp animate-pulse" aria-hidden="true"></span>
+            רשת הקהילות של ירושלים
+          </p>
+          <h1 class="text-2xl leading-tight sm:text-3xl md:text-5xl lg:text-[3.15rem] font-extrabold text-brand tracking-tight mb-3 sm:mb-6 max-w-3xl mx-auto px-1 sm:px-0">
+            רשת קבוצות הווצאפ - של נשות ירושלים 
+          <p class="text-sm sm:text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto mb-8 sm:mb-12 px-1 sm:px-0">
+            התחברי לקהילה המקומית שלך, שתפי המלצות, וקבלי עזרה – הכל בלחיצה אחת דרך הבוט הרשמי.
+          </p>
+          <a
+            id="hero-cta"
+            href="#groups"
+            class="pointer-events-auto inline-flex items-center justify-center gap-2 px-9 sm:px-11 py-3.5 sm:py-4 rounded-xl bg-whatsapp text-white font-bold text-base sm:text-lg shadow-lg shadow-whatsapp/25 hover:bg-[#20bd5a] hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-whatsapp/40"
+          >
+            מצאי את הקבוצה שלך
+            <span aria-hidden="true">↓</span>
+          </a>
+        </div>
       </div>
     </section>
 
+    <!-- ========== ABOUT ========== -->
+    <section id="about" class="py-14 sm:py-20 bg-white border-y border-slate-100">
+      <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand mb-4">מה זה קשר עירוני?</h2>
+        <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+          קשר עירוני מאגד קהילות נשים בוטצפ בכל ירושלים.
+         פלטפורמה של שיתוף סיוע הכוונה מידע על הנעשה בשכונה פעליות ושוטף כאן זה המקום להכיר אחת את השניה ליצור חיבורים ולהיות פעילה.
+      </div>
+    </section>
+
+    <!-- ========== GROUPS / SEARCH ========== -->
+    <section id="groups" class="py-14 sm:py-20 bg-gradient-to-b from-mint/40 via-cream to-cream">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-8 sm:mb-10">
+          <h2 class="text-xl sm:text-3xl font-bold text-brand mb-2">מפת הקבוצות</h2>
+          <p class="text-slate-500 text-sm sm:text-base">חפשי לפי שם שכונה או סנני לפי אזור</p>
+        </div>
+
+        <!-- חיפוש וסינון -->
+        <div class="glass-card rounded-2xl p-4 sm:p-5 shadow-glass mb-8 max-w-3xl mx-auto">
+          <label for="search-input" class="sr-only">חיפוש שכונה</label>
+          <div class="relative mb-4">
+            <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input
+              type="search"
+              id="search-input"
+              placeholder="חפשי את השכונה שלך..."
+              autocomplete="off"
+              class="w-full pr-12 pl-4 py-3.5 rounded-xl border border-brand/10 bg-white/80 text-brand placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-whatsapp/40 focus:border-whatsapp/30 text-base"
+            >
+          </div>
+          <div class="flex flex-wrap justify-center gap-2" role="group" aria-label="סינון לפי אזור">
+            <button type="button" data-region="all" class="filter-btn active px-4 py-2 rounded-full text-sm font-medium border border-brand/15 text-brand hover:bg-brand/5 transition-colors">הכל</button>
+            <button type="button" data-region="צפון" class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-brand/15 text-brand hover:bg-brand/5 transition-colors">צפון</button>
+            <button type="button" data-region="מרכז" class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-brand/15 text-brand hover:bg-brand/5 transition-colors">מרכז</button>
+            <button type="button" data-region="דרום" class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-brand/15 text-brand hover:bg-brand/5 transition-colors">דרום</button>
+            <button type="button" data-region="מערב" class="filter-btn px-4 py-2 rounded-full text-sm font-medium border border-brand/15 text-brand hover:bg-brand/5 transition-colors">מערב</button>
+          </div>
+        </div>
+
+        <p id="results-count" class="text-center text-sm text-slate-500 mb-6" aria-live="polite"></p>
+
+        <!-- כרטיסיות שכונות – נוצרות דינמית -->
+        <div id="neighborhoods-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+
+        <p id="no-results" class="hidden text-center text-slate-500 py-12">לא נמצאו שכונות התואמות לחיפוש. נסי מילה אחרת.</p>
+      </div>
+    </section>
+
+    <!-- ========== BUSINESS ========== -->
+    <section id="business" class="py-14 sm:py-20 bg-white">
+      <div class="max-w-4xl mx-auto px-5 sm:px-8">
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand via-[#005a9e] to-[#007070] p-8 sm:p-12 text-center text-white shadow-xl">
+          <div class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
+            <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-whatsapp"></div>
+            <div class="absolute -bottom-16 -left-16 w-56 h-56 rounded-full bg-white"></div>
+          </div>
+          <div class="relative">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4">רוצים את העסק שלכם בלב הקהילה הירושלמית?</h2>
+            <p class="text-white/90 text-sm sm:text-base leading-relaxed mb-8 max-w-2xl mx-auto">
+              פרסמו ברשת הקבוצות הגדולה בעיר ותיהנו מחשיפה ממוקדת, אמינה ומניעה לפעולה ישירות לאלפי תושבים בעלי כוח קנייה גבוה. השאירו פרטים, העלו את חומרי הפרסום שלכם ונצא לדרך!
+            </p>
+            <button
+              type="button"
+              id="open-business-modal"
+              class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white text-brand font-bold text-sm sm:text-base hover:bg-cream transition-colors shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-white/40"
+            >
+              העלאת מודעה והשארת פרטים
+              <span aria-hidden="true">←</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section id="contact" class="py-12 bg-cream border-t border-slate-100">
+      <div class="max-w-2xl mx-auto px-5 text-center">
+        <h2 class="text-lg font-bold text-brand mb-2">צור קשר</h2>
+        <p class="text-slate-600 text-sm mb-4">שאלות, הצעות או פניות כלליות</p>
+        <a href="mailto:contact@example.com" class="text-brand font-medium hover:text-whatsapp transition-colors" dir="ltr">contact@example.com</a>
+      </div>
+    </section>
   </main>
 
-  <!-- Official Business Info (footer metadata) -->
-  <div id="business-info" class="bg-slate-100 border-t border-slate-200 py-5 sm:py-6">
-    <div class="max-w-4xl mx-auto px-6">
-      <p class="text-[10px] sm:text-xs text-slate-400 text-center mb-3 tracking-wide">פרטי העסק הרשמיים</p>
-      <div class="flex flex-wrap justify-center items-center gap-x-3 gap-y-1.5 text-[11px] sm:text-xs text-slate-500 text-center leading-relaxed max-w-3xl mx-auto">
-        <span><span class="text-slate-400">שם העסק:</span> קשר עירוני</span>
-        <span class="text-slate-300 hidden sm:inline select-none" aria-hidden="true">|</span>
-        <span><span class="text-slate-400">סוג עוסק:</span> [placeholder: עוסק מורשה / פטור]</span>
-        <span class="text-slate-300 hidden sm:inline select-none" aria-hidden="true">|</span>
-        <span dir="ltr"><span class="text-slate-400 font-sans" dir="rtl">מספר עוסק / ח.פ:</span> [placeholder: מספר עוסק]</span>
-        <span class="text-slate-300 hidden sm:inline select-none" aria-hidden="true">|</span>
-        <span><span class="text-slate-400">כתובת:</span> ירושלים, ישראל</span>
-        <span class="text-slate-300 hidden sm:inline select-none" aria-hidden="true">|</span>
-        <span>
-          <span class="text-slate-400">אימייל:</span>
-          <a href="mailto:contact@example.com" class="text-slate-600 hover:text-jerusalem transition-colors" dir="ltr">[placeholder: מייל ליצירת קשר]</a>
-        </span>
-      </div>
+  <!-- ========== LEGAL FOOTER ========== -->
+  <div class="bg-slate-100 border-t border-slate-200 py-3 px-4">
+    <div class="max-w-5xl mx-auto flex flex-wrap justify-center gap-x-3 gap-y-1 text-[10px] sm:text-xs text-slate-500 text-center">
+      <span><span class="text-slate-400">שם:</span> קשר עירוני</span>
+      <span class="text-slate-300">|</span>
+      <span><span class="text-slate-400">עוסק:</span> [placeholder: מספר עוסק]</span>
+      <span class="text-slate-300">|</span>
+      <span><span class="text-slate-400">כתובת:</span> ירושלים, ישראל</span>
+      <span class="text-slate-300">|</span>
+      <span><span class="text-slate-400">מייל:</span> <a href="mailto:contact@example.com" class="hover:text-brand" dir="ltr">[placeholder: מייל]</a></span>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-jerusalem text-white py-10 sm:py-12">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <p class="text-sm text-white/80 mb-6">© 2026 קשר עירוני. כל הזכויות שמורות.</p>
-
-      <nav class="flex flex-wrap justify-center gap-4 sm:gap-8" aria-label="קישורים משפטיים">
-        <button
-          type="button"
-          id="open-terms"
-          class="text-sm sm:text-base font-medium text-white/90 hover:text-whatsapp transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2 focus-visible:ring-offset-jerusalem rounded"
-        >
-          תקנון ותנאי שימוש
-        </button>
-        <span class="text-white/30 hidden sm:inline" aria-hidden="true">|</span>
-        <button
-          type="button"
-          id="open-privacy"
-          class="text-sm sm:text-base font-medium text-white/90 hover:text-whatsapp transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2 focus-visible:ring-offset-jerusalem rounded"
-        >
-          מדיניות פרטיות
-        </button>
-      </nav>
-    </div>
+  <footer class="bg-brand text-white py-6 text-center text-sm">
+    <p class="text-white/80 mb-3">© 2026 קשר עירוני. כל הזכויות שמורות.</p>
+    <nav class="flex justify-center gap-4">
+      <button type="button" id="open-terms" class="hover:text-whatsapp transition-colors">תקנון</button>
+      <span class="text-white/30">|</span>
+      <button type="button" id="open-privacy" class="hover:text-whatsapp transition-colors">מדיניות פרטיות</button>
+    </nav>
   </footer>
 
-  <!-- Terms Modal -->
-  <div
-    id="terms-modal"
-    class="fixed inset-0 z-50 hidden"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="terms-title"
-    aria-hidden="true"
-  >
-    <div class="absolute inset-0 bg-jerusalem/60 backdrop-blur-sm" data-close-modal></div>
-    <div class="relative flex min-h-full items-center justify-center p-4 sm:p-6">
-      <div class="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-2xl bg-white shadow-2xl">
-        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4 shrink-0">
-          <h2 id="terms-title" class="text-lg sm:text-xl font-bold text-jerusalem">תקנון ותנאי שימוש</h2>
-          <button
-            type="button"
-            class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-jerusalem transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp"
-            data-close-modal
-            aria-label="סגור"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
+  <!-- ========== MODAL: עסקים ========== -->
+  <div id="business-modal" class="fixed inset-0 z-[80] hidden" role="dialog" aria-modal="true" aria-labelledby="business-modal-title" aria-hidden="true">
+    <div class="absolute inset-0 bg-brand/50 backdrop-blur-sm" data-close="business-modal"></div>
+    <div class="relative flex min-h-full items-start sm:items-center justify-center p-4 py-6 overflow-y-auto">
+      <div class="w-full max-w-md max-h-[90vh] flex flex-col rounded-2xl bg-white shadow-2xl overflow-hidden my-auto">
+        <div class="flex shrink-0 items-center justify-between border-b px-6 py-4 bg-white">
+          <h2 id="business-modal-title" class="font-bold text-brand text-lg">פרסום לעסקים</h2>
+          <button type="button" data-close="business-modal" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500" aria-label="סגור">✕</button>
         </div>
-        <div class="overflow-y-auto px-6 py-5 text-sm sm:text-base text-slate-600 leading-relaxed space-y-4">
-          <p><strong class="text-slate-800">עדכון אחרון:</strong> מאי 2026</p>
-          <p>
-            ברוכות הבאות ל"קשר עירוני". השימוש באתר זה ובשירותי הפלטפורמה הקהילתית שלנו כפוף לתנאים המפורטים להלן. גלישה באתר ו/או שימוש בשירותים מהווים הסכמה מלאה לתנאים אלה.
-          </p>
-          <h3 class="font-semibold text-jerusalem">1. תיאור השירות</h3>
-          <p>
-            קשר עירוני מפעילה רשת קבוצות קהילתיות מבוססות מיקום עבור נשים בירושלים, לרבות ערוצי תקשורת דיגיטליים (כולל WhatsApp Business API) לצורך חיבור קהילתי, עדכונים מקומיים ועזרה הדדית.
-          </p>
-          <h3 class="font-semibold text-jerusalem">2. שימוש מותר</h3>
-          <p>
-            המשתמשות מתחייבות להשתמש בשירותים למטרות קהילתיות וחוקיות בלבד, בכבוד הדדי, וללא פרסום ספאם, הטרדה, תוכן פוגעני או הפרת זכויות צד שלישי.
-          </p>
-          <h3 class="font-semibold text-jerusalem">3. הרשמה וקבוצות</h3>
-          <p>
-            הצטרפות לקבוצות תתאפשר באמצעות הבוט הרשמי של העסק, בכפוף לאימות זהות ולכללי הקבוצה. העסק שומר לעצמו את הזכות לאשר, לדחות או להסיר משתמשות מהשירות בהתאם למדיניות הקהילה.
-          </p>
-          <h3 class="font-semibold text-jerusalem">4. קניין רוחני</h3>
-          <p>
-            כל התכנים, הלוגו, העיצוב והמותג "קשר עירוני" הם קניינה של העסק. אין להעתיק, לשכפל או לעשות שימוש מסחרי ללא אישור בכתב.
-          </p>
-          <h3 class="font-semibold text-jerusalem">5. הגבלת אחריות</h3>
-          <p>
-            השירות ניתן "כמות שהוא". העסק אינה אחראית לתוכן שמפרסם משתמשות בקבוצות, ואינה מתחייבת לזמינות רציפה של כל ערוץ תקשורת. המידע בקבוצות אינו מהווה ייעוץ מקצועי (רפואי, משפטי וכו').
-          </p>
-          <h3 class="font-semibold text-jerusalem">6. שינויים בתקנון</h3>
-          <p>
-            העסק רשאית לעדכן תקנון זה מעת לעת. המשך שימוש בשירות לאחר עדכון מהווה הסכמה לגרסה המעודכנת.
-          </p>
-          <h3 class="font-semibold text-jerusalem">7. יצירת קשר</h3>
-          <p>
-            לשאלות בנוגע לתקנון: [placeholder: מייל ליצירת קשר]
-          </p>
-        </div>
-        <div class="border-t border-slate-200 px-6 py-4 shrink-0">
+        <form id="business-form" enctype="multipart/form-data" class="overflow-y-auto flex-1 min-h-0 p-6 pb-6 space-y-4">
+          <div>
+            <label for="biz-name" class="block text-sm font-medium text-slate-700 mb-1">שם מלא</label>
+            <input type="text" id="biz-name" name="name" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none">
+          </div>
+          <div>
+            <label for="biz-company" class="block text-sm font-medium text-slate-700 mb-1">שם העסק</label>
+            <input type="text" id="biz-company" name="company" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none">
+          </div>
+          <div>
+            <label for="biz-phone" class="block text-sm font-medium text-slate-700 mb-1">טלפון</label>
+            <input type="tel" id="biz-phone" name="phone" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none" dir="ltr">
+          </div>
+          <div>
+            <label for="biz-email" class="block text-sm font-medium text-slate-700 mb-1">אימייל</label>
+            <input type="email" id="biz-email" name="email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none" dir="ltr">
+          </div>
+          <div>
+            <label for="biz-msg" class="block text-sm font-medium text-slate-700 mb-1">הודעה (אופציונלי)</label>
+            <textarea id="biz-msg" name="message" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none resize-none"></textarea>
+          </div>
+          <div>
+            <label for="biz-ad" class="block text-sm font-medium text-slate-700 mb-1">צרפו את מודעת הפרסום שלכם (אופציונלי)</label>
+            <input
+              type="file"
+              id="biz-ad"
+              name="ad_file"
+              accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf"
+              class="w-full cursor-pointer rounded-xl border border-dashed border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-600 file:me-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand/10 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-brand hover:file:bg-brand/15 focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
+            >
+            <p class="mt-1.5 text-xs text-slate-500">קבצים נתמכים: PNG, JPEG או PDF</p>
+          </div>
           <button
-            type="button"
-            class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-jerusalem text-white font-medium hover:bg-jerusalem/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2"
-            data-close-modal
+            type="submit"
+            class="w-full py-3.5 rounded-xl bg-brand text-white font-bold text-base shadow-md shadow-brand/20 hover:bg-brand/90 transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/30"
           >
-            סגור
+            שליחת פרטים ופרסום
           </button>
+          <p id="form-success" class="hidden text-center text-sm text-whatsapp font-medium pb-2">תודה! נחזור אליכם בהקדם.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL: תקנון ========== -->
+  <div id="terms-modal" class="fixed inset-0 z-[70] hidden" role="dialog" aria-modal="true" aria-labelledby="terms-title" aria-hidden="true">
+    <div class="absolute inset-0 bg-brand/60 backdrop-blur-sm" data-close="terms-modal"></div>
+    <div class="relative flex min-h-full items-center justify-center p-4">
+      <div class="w-full max-w-lg max-h-[85vh] flex flex-col rounded-2xl bg-white shadow-2xl">
+        <div class="flex justify-between items-center border-b px-6 py-4 shrink-0">
+          <h2 id="terms-title" class="font-bold text-brand">תקנון ותנאי שימוש</h2>
+          <button type="button" data-close="terms-modal" class="p-2 hover:bg-slate-100 rounded-lg" aria-label="סגור">✕</button>
+        </div>
+        <div class="overflow-y-auto px-6 py-5 text-sm text-slate-600 space-y-3 leading-relaxed">
+          <p>ברוכות הבאות לקשר עירוני. השימוש באתר ובשירותי הרשת כפוף לתנאים אלה.</p>
+          <p><strong>הצטרפות:</strong> ההצטרפות לקבוצות מתבצעת דרך קישורי הווטסאפ המוצגים בכרטיסי השכונות או דרך הבוט המרכזי.</p>
+          <p><strong>שימוש:</strong> למטרות קהילתיות וחוקיות בלבד.</p>
+          <p>יצירת קשר: [placeholder: מייל ליצירת קשר]</p>
+        </div>
+        <div class="border-t px-6 py-4 shrink-0">
+          <button type="button" data-close="terms-modal" class="px-5 py-2 rounded-xl bg-brand text-white text-sm">סגור</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Privacy Modal -->
-  <div
-    id="privacy-modal"
-    class="fixed inset-0 z-50 hidden"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="privacy-title"
-    aria-hidden="true"
-  >
-    <div class="absolute inset-0 bg-jerusalem/60 backdrop-blur-sm" data-close-modal></div>
-    <div class="relative flex min-h-full items-center justify-center p-4 sm:p-6">
-      <div class="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-2xl bg-white shadow-2xl">
-        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4 shrink-0">
-          <h2 id="privacy-title" class="text-lg sm:text-xl font-bold text-jerusalem">מדיניות פרטיות</h2>
-          <button
-            type="button"
-            class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-jerusalem transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp"
-            data-close-modal
-            aria-label="סגור"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
+  <!-- ========== MODAL: פרטיות ========== -->
+  <div id="privacy-modal" class="fixed inset-0 z-[70] hidden" role="dialog" aria-modal="true" aria-labelledby="privacy-title" aria-hidden="true">
+    <div class="absolute inset-0 bg-brand/60 backdrop-blur-sm" data-close="privacy-modal"></div>
+    <div class="relative flex min-h-full items-center justify-center p-4">
+      <div class="w-full max-w-lg max-h-[85vh] flex flex-col rounded-2xl bg-white shadow-2xl">
+        <div class="flex justify-between items-center border-b px-6 py-4 shrink-0">
+          <h2 id="privacy-title" class="font-bold text-brand">מדיניות פרטיות</h2>
+          <button type="button" data-close="privacy-modal" class="p-2 hover:bg-slate-100 rounded-lg" aria-label="סגור">✕</button>
         </div>
-        <div class="overflow-y-auto px-6 py-5 text-sm sm:text-base text-slate-600 leading-relaxed space-y-4">
-          <p><strong class="text-slate-800">עדכון אחרון:</strong> מאי 2026</p>
-          <p>
-            קשר עירוני ("העסק", "אנחנו") מחויבת להגן על פרטיות המשתמשות. מדיניות זו מסבירה אילו נתונים נאספים, כיצד הם משמשים, ומהן זכויותיכן — בפרט בהקשר של שימוש ב-WhatsApp Business API ובפלטפורמות Meta.
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">1. מי אחראי לעיבוד הנתונים</h3>
-          <p>
-            בעלת השליטה בנתונים: קשר עירוני, ירושלים, ישראל. לפניות בנושא פרטיות: [placeholder: מייל ליצירת קשר]
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">2. אילו נתונים אנו אוספים</h3>
-          <ul class="list-disc list-inside space-y-1 mr-2">
-            <li>מספר טלפון נייד (לצורך הצטרפות לקבוצות ותקשורת בבוט הרשמי)</li>
-            <li>שם תצוגה / שם פרטי (כפי שמסופק על ידי המשתמשת)</li>
-            <li>שכונה / אזור מגורים בירושלים (לשיוך לקבוצה המתאימה)</li>
-            <li>תוכן הודעות שנשלחות לבוט או בקבוצות (לצורך תפעול השירות)</li>
-            <li>נתוני שימוש טכניים (לוגים, חותמות זמן, סטטוס משלוח הודעות)</li>
-          </ul>
-
-          <h3 class="font-semibold text-jerusalem">3. מטרות השימוש בנתונים</h3>
-          <p>
-            הנתונים משמשים אך ורק ל: הפעלת רשת הקבוצות הקהילתיות; אימות והצטרפות לקבוצות; שליחת עדכונים רלוונטיים; מניעת שימוש לרעה; עמידה בדרישות חוק ומדיניות Meta/WhatsApp.
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">4. WhatsApp ו-Meta</h3>
-          <p>
-            השירות משתמש ב-WhatsApp Business API של Meta. עיבוד מסוים של נתונים (כגון מסירת הודעות) מתבצע על ידי Meta בהתאם ל<a href="https://www.whatsapp.com/legal/privacy-policy" class="text-jerusalem underline hover:text-whatsapp" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות של WhatsApp</a>. איננו משתמשים בנתונים שלכן למטרות פרסום או מכירה לצדדים שלישיים.
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">5. שיתוף עם צדדים שלישיים</h3>
-          <p>
-            <strong class="text-slate-800">איננו מוכרים, משכירים או משתפים את הנתונים האישיים שלכן עם צדדים שלישיים למטרות שיווק.</strong> שיתוף מוגבל עשוי להתבצע רק עם: ספקי תשתית טכנולוגית (אירוח, API) הנדרשים להפעלת השירות; רשויות חוק ככל שנדרש על פי דין.
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">6. אחסון ואבטחה</h3>
-          <p>
-            הנתונים נשמרים בשרתים מאובטחים, בגישה מוגבלת לצוות מורשה בלבד. אנו נוקטים באמצעי אבטחה סבירים (הצפנה בתעבורה, בקרת גישה) למניעת גישה בלתי מורשית.
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">7. משך שמירת הנתונים</h3>
-          <p>
-            נשמור נתונים כל עוד החשבון/ההשתתפות פעילים, ולאחר מכן למשך הנדרש לצורכי תפעול, חוק או מחלוקות — ולא יאוחר מהנדרש בדין.
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">8. זכויותיכן</h3>
-          <p>
-            בהתאם לחוק הגנת הפרטיות, התשמ"א-1981, עומדות לכן זכויות עיון, תיקון, מחיקה והתנגדות לעיבוד — בכפוף לחריגים הקבועים בחוק. ניתן לבקש הסרה מהקבוצות ומחיקת נתונים בפנייה לכתובת האימייל לעיל.
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">9. עוגיות (Cookies)</h3>
-          <p>
-            אתר זה עשוי להשתמש בעוגיות טכניות בסיסיות לשיפור חוויית הגלישה. איננו משתמשים בעוגיות מעקב לפרסום בצד ג'.
-          </p>
-
-          <h3 class="font-semibold text-jerusalem">10. עדכונים למדיניות</h3>
-          <p>
-            מדיניות זו עשויה להתעדכן. שינוי מהותי יפורסם באתר זה עם ציון תאריך העדכון.
-          </p>
+        <div class="overflow-y-auto px-6 py-5 text-sm text-slate-600 space-y-3 leading-relaxed">
+          <p>קשר עירוני מחויבת להגן על פרטיות המשתמשים, בפרט בהקשר של WhatsApp.</p>
+          <p><strong>נתונים:</strong> מספר טלפון, שם, שכונה – לתפעול השירות בלבד.</p>
+          <p><strong>שיתוף:</strong> איננו מוכרים נתונים אישיים למטרות שיווק.</p>
+          <p>פניות: [placeholder: מייל ליצירת קשר]</p>
         </div>
-        <div class="border-t border-slate-200 px-6 py-4 shrink-0">
-          <button
-            type="button"
-            class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-whatsapp text-white font-medium hover:bg-whatsapp/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-jerusalem focus-visible:ring-offset-2"
-            data-close-modal
-          >
-            סגור
-          </button>
+        <div class="border-t px-6 py-4 shrink-0">
+          <button type="button" data-close="privacy-modal" class="px-5 py-2 rounded-xl bg-whatsapp text-white text-sm">סגור</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    (function () {
-      const termsModal = document.getElementById('terms-modal');
-      const privacyModal = document.getElementById('privacy-modal');
-      const openTerms = document.getElementById('open-terms');
-      const openPrivacy = document.getElementById('open-privacy');
+    /* ============================================================
+       נתוני שכונות – גיבוי מובנה + עדכון מ-groups.json כשאפשר
+       ============================================================ */
+    const BOT_NUMBER = '972559880903';
 
-      let activeModal = null;
-      let previousFocus = null;
+    function buildWhatsAppLink(neighborhoodName) {
+      const text = `מעוניינת לבחור קבוצה באזורי - ${neighborhoodName}`;
+      return `https://wa.me/${BOT_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
 
-      function openModal(modal) {
-        if (activeModal) closeModal(activeModal);
-        previousFocus = document.activeElement;
-        activeModal = modal;
+    let allNeighborhoods = [
+      { name: 'רמות', region: 'צפון' },
+      { name: 'נווה יעקב', region: 'צפון' },
+      { name: 'פסגת זאב', region: 'צפון' },
+      { name: 'גבעה צרפתית', region: 'צפון' },
+      { name: 'שכונת הבוכרים', region: 'צפון' },
+      { name: 'שמואל הנביא', region: 'צפון' },
+      { name: 'רמת אשכול', region: 'צפון' },
+      { name: 'רמת שלמה', region: 'צפון' },
+      { name: 'גבעת זאב', region: 'צפון' },
+      { name: 'עין כרם', region: 'מערב' },
+      { name: 'בית וגן', region: 'מערב' },
+      { name: 'גבעת שאול', region: 'מערב' },
+      { name: 'הר נוף', region: 'מערב' },
+      { name: 'בית הכרם', region: 'מערב' },
+      { name: 'נחלאות', region: 'מרכז' },
+      { name: 'קטמון', region: 'מרכז' },
+      { name: 'רחביה', region: 'מרכז' },
+      { name: 'המושבה הגרמנית', region: 'מרכז' },
+      { name: 'טלביה', region: 'מרכז' },
+      { name: 'מוסררה', region: 'מרכז' },
+      { name: 'משכנות האומה', region: 'מרכז' },
+      { name: 'רוממה', region: 'מרכז' },
+      { name: 'קרית יובל', region: 'דרום' },
+      { name: 'גבעת מרדכי', region: 'דרום' },
+      { name: 'גבעת משואה', region: 'דרום' },
+      { name: 'מלחה', region: 'דרום' },
+      { name: 'ארמון הנציב', region: 'דרום' },
+      { name: 'תלפיות', region: 'דרום' },
+      { name: 'בקעה', region: 'דרום' },
+      { name: 'ארנונה', region: 'דרום' },
+      { name: 'גילה', region: 'דרום' },
+      { name: 'הר חומה', region: 'דרום' }
+    ];
+
+    const HERO_MD_QUERY = '(min-width: 768px)';
+    const HERO_PIN_HORIZ_MIN = 2;
+    const HERO_PIN_HORIZ_MAX = 30;
+    const HERO_TOP_MIN = 8;
+    const HERO_TOP_MAX = 92;
+    const HERO_DEPTH_LEVELS = [
+      { scale: 0.75, opacity: 0.5 },
+      { scale: 0.95, opacity: 0.8 },
+      { scale: 1.05, opacity: 1 }
+    ];
+    const HERO_LABEL_SIZES = ['0.72rem', '0.82rem', '0.92rem'];
+    const HERO_MOBILE_PIN_MIN = 10;
+    const HERO_MOBILE_PIN_MAX = 12;
+    const HERO_MOBILE_SCALE_MIN = 0.6;
+    const HERO_MOBILE_SCALE_MAX = 0.65;
+    const HERO_MOBILE_OPACITY_MIN = 0.3;
+    const HERO_MOBILE_OPACITY_MAX = 0.6;
+
+    const heroPinsEl = document.getElementById('hero-pins');
+
+    function hashString(str) {
+      let h = 0;
+      for (let i = 0; i < str.length; i++) {
+        h = ((h << 5) - h) + str.charCodeAt(i);
+        h |= 0;
+      }
+      return Math.abs(h);
+    }
+
+    function escapeHtml(text) {
+      const el = document.createElement('span');
+      el.textContent = text;
+      return el.innerHTML;
+    }
+
+    function isHeroDesktop() {
+      return window.matchMedia(HERO_MD_QUERY).matches;
+    }
+
+    /** משיכת שכונות מ-groups.json (שורש הפרויקט) עם מניעת cache */
+    async function fetchNeighborhoodsFromJson() {
+      const res = await fetch('groups.json?v=' + new Date().getTime());
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error('groups.json ריק או לא תקין');
+      }
+      return data;
+    }
+
+    async function loadGroupsData() {
+      try {
+        allNeighborhoods = await fetchNeighborhoodsFromJson();
+      } catch (err) {
+        console.warn('groups.json לא נטען – מוצגת רשימת גיבוי מובנית.', err);
+      }
+      renderNeighborhoodCards();
+      renderHeroPins();
+    }
+
+    /** פיזור מדורג: שמאל/ימין 2%–30%, מרכז 30%–70% פנוי */
+    function buildHeroPinPlacements(neighborhoods) {
+      const half = Math.ceil(neighborhoods.length / 2);
+      const leftColumn = neighborhoods.slice(0, half);
+      const rightColumn = neighborhoods.slice(half);
+      const placements = [];
+
+      function verticalStep(count) {
+        if (count <= 1) return 0;
+        const span = HERO_TOP_MAX - HERO_TOP_MIN;
+        const fitted = span / (count - 1);
+        return Math.min(15, Math.max(8, fitted));
+      }
+
+      function placeColumn(column, side) {
+        const count = column.length;
+        if (!count) return;
+        const step = verticalStep(count);
+
+        column.forEach((nb, index) => {
+          const h = hashString(nb.name);
+          const topPercent = HERO_TOP_MIN + step * index;
+          const offsetPx = ((h % 5) - 2) * 2;
+          const horizPercent = HERO_PIN_HORIZ_MIN + (h % (HERO_PIN_HORIZ_MAX - HERO_PIN_HORIZ_MIN + 1));
+          const depthIndex = (index + h) % 3;
+
+          placements.push({
+            nb,
+            side,
+            topPercent,
+            offsetPx,
+            horizPercent,
+            depth: HERO_DEPTH_LEVELS[depthIndex],
+            labelSize: HERO_LABEL_SIZES[depthIndex],
+            delay: (h % 6) * 0.35
+          });
+        });
+      }
+
+      placeColumn(leftColumn, 'left');
+      placeColumn(rightColumn, 'right');
+      return placements;
+    }
+
+    /** דגימה אחידה של 10–12 שכונות לענן מובייל */
+    function pickMobileNeighborhoods(neighborhoods) {
+      const n = neighborhoods.length;
+      if (!n) return [];
+
+      const target = Math.min(HERO_MOBILE_PIN_MAX, Math.max(HERO_MOBILE_PIN_MIN, n), n);
+      if (n <= target) return neighborhoods.slice();
+
+      const picked = [];
+      for (let i = 0; i < target; i++) {
+        const idx = Math.round(i * (n - 1) / (target - 1));
+        picked.push(neighborhoods[idx]);
+      }
+      return picked;
+    }
+
+    /** מובייל: פיזור אקראי רך על כל שטח ה-Hero (קטן ושקוף, שכבה אחורית) */
+    function buildHeroMobilePinPlacements(neighborhoods) {
+      const picked = pickMobileNeighborhoods(neighborhoods);
+
+      return picked.map((nb, index) => {
+        const h = hashString(nb.name + ':' + index);
+        const topPercent = 5 + (h % 88);
+        const leftPercent = 5 + ((h >> 5) % 86);
+        const opacitySpan = HERO_MOBILE_OPACITY_MAX - HERO_MOBILE_OPACITY_MIN;
+        const scaleSpan = HERO_MOBILE_SCALE_MAX - HERO_MOBILE_SCALE_MIN;
+        const opacity = HERO_MOBILE_OPACITY_MIN + ((h >> 3) % 31) / 30 * opacitySpan;
+        const scale = HERO_MOBILE_SCALE_MIN + ((h >> 7) % 6) / 5 * scaleSpan;
+
+        return {
+          nb,
+          mobile: true,
+          topPercent,
+          leftPercent,
+          depth: { scale, opacity },
+          labelSize: '0.58rem',
+          delay: (h % 6) * 0.45
+        };
+      });
+    }
+
+    function renderHeroPins() {
+      if (!heroPinsEl) return;
+      heroPinsEl.innerHTML = '';
+
+      const placements = isHeroDesktop()
+        ? buildHeroPinPlacements(allNeighborhoods)
+        : buildHeroMobilePinPlacements(allNeighborhoods);
+
+      placements.forEach((p) => {
+        const pin = document.createElement('a');
+        pin.href = buildWhatsAppLink(p.nb.name);
+        pin.target = '_blank';
+        pin.rel = 'noopener noreferrer';
+        pin.setAttribute('aria-label', `הצטרפות לקבוצת ${p.nb.name} בווטסאפ`);
+
+        if (p.mobile) {
+          pin.className = 'hero-pin hero-pin--scatter';
+          pin.style.top = p.topPercent + '%';
+          pin.style.left = p.leftPercent + '%';
+          pin.style.right = 'auto';
+          pin.style.animationDelay = p.delay + 's';
+        } else {
+          pin.className = `hero-pin hero-pin--${p.side}`;
+          pin.style.top = `calc(${p.topPercent}% + ${p.offsetPx}px)`;
+          pin.style.animationDelay = p.delay + 's';
+
+          if (p.side === 'left') {
+            pin.style.left = p.horizPercent + '%';
+            pin.style.right = 'auto';
+          } else {
+            pin.style.right = p.horizPercent + '%';
+            pin.style.left = 'auto';
+          }
+        }
+
+        pin.innerHTML = `
+          <span class="hero-pin-wrap" style="opacity:${p.depth.opacity};transform:scale(${p.depth.scale})">
+            <span class="hero-pin-label" style="font-size:${p.labelSize}">${escapeHtml(p.nb.name)}</span>
+            <svg class="hero-pin-icon" viewBox="0 0 32 44" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M16 1.5C9.1 1.5 3.5 7.4 3.5 14.2c0 9.2 12.5 28.3 12.5 28.3s12.5-19.1 12.5-28.3C28.5 7.4 22.9 1.5 16 1.5zm0 19.8a6.3 6.3 0 1 1 0-12.6 6.3 6.3 0 0 1 0 12.6z"/>
+            </svg>
+          </span>
+        `;
+
+        heroPinsEl.appendChild(pin);
+      });
+    }
+
+    let heroResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(heroResizeTimer);
+      heroResizeTimer = setTimeout(renderHeroPins, 150);
+    });
+
+    /* --- DOM refs --- */
+    const gridEl = document.getElementById('neighborhoods-grid');
+    const searchInput = document.getElementById('search-input');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('no-results');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    let activeRegion = 'all';
+    let searchQuery = '';
+
+    /* --- רינדור כרטיסי שכונות --- */
+    function renderNeighborhoodCards() {
+      const q = searchQuery.trim().toLowerCase();
+      let visible = 0;
+
+      gridEl.innerHTML = '';
+
+      allNeighborhoods.forEach((nb) => {
+        const matchRegion = activeRegion === 'all' || nb.region === activeRegion;
+        const matchSearch = !q || nb.name.toLowerCase().includes(q);
+        const show = matchRegion && matchSearch;
+
+        const card = document.createElement('article');
+        card.className = 'nb-card glass-card rounded-2xl p-4 sm:p-5 shadow-glass hover:shadow-lg transition-all duration-300 border border-white/50 flex flex-col' + (show ? '' : ' hidden-card');
+        card.dataset.name = nb.name;
+        card.dataset.region = nb.region;
+
+        if (show) visible++;
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="min-w-0">
+              <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-brand/10 text-brand mb-1.5">${nb.region}</span>
+              <h3 class="text-lg font-bold text-brand leading-snug">${nb.name}</h3>
+            </div>
+            <span class="shrink-0 flex h-9 w-9 items-center justify-center rounded-lg bg-whatsapp/15 text-whatsapp" aria-hidden="true">
+              <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.882 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </span>
+          </div>
+          <a
+            href="${buildWhatsAppLink(nb.name)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-auto flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-whatsapp text-white font-bold text-sm hover:bg-[#20bd5a] transition-colors shadow-md shadow-whatsapp/20 focus:outline-none focus-visible:ring-4 focus-visible:ring-whatsapp/40"
+          >
+            להצטרפות לקבוצה
+          </a>
+        `;
+
+        gridEl.appendChild(card);
+      });
+
+      resultsCount.textContent = visible
+        ? `מוצגות ${visible} קבוצות${activeRegion !== 'all' ? ' באזור ' + activeRegion : ''}`
+        : '';
+      noResults.classList.toggle('hidden', visible > 0);
+    }
+
+    /* --- חיפוש וסינון --- */
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderNeighborhoodCards();
+    });
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeRegion = btn.dataset.region;
+        renderNeighborhoodCards();
+      });
+    });
+
+    /* --- ניווט נייד --- */
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden');
+      menuToggle.setAttribute('aria-expanded', String(!open));
+    });
+    document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    /* --- Navbar scroll shadow --- */
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('nav-scrolled', window.scrollY > 8);
+    });
+
+    /* --- מודלים --- */
+    function setupModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (!modal) return { open: () => {}, close: () => {} };
+
+      const open = () => {
         modal.classList.remove('hidden');
         modal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
-        const closeBtn = modal.querySelector('button[data-close-modal]');
-        if (closeBtn) closeBtn.focus();
-      }
-
-      function closeModal(modal) {
+      };
+      const close = () => {
         modal.classList.add('hidden');
         modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('modal-open');
-        if (activeModal === modal) activeModal = null;
-        if (previousFocus && typeof previousFocus.focus === 'function') {
-          previousFocus.focus();
+        if (!document.querySelector('[role="dialog"]:not(.hidden)')) {
+          document.body.classList.remove('modal-open');
         }
-      }
+      };
 
-      function handleBackdropClick(e) {
-        if (e.target.hasAttribute('data-close-modal')) {
-          const modal = e.target.closest('[role="dialog"]');
-          if (modal) closeModal(modal);
-        }
-      }
-
-      openTerms.addEventListener('click', () => openModal(termsModal));
-      openPrivacy.addEventListener('click', () => openModal(privacyModal));
-
-      document.querySelectorAll('[data-close-modal]').forEach((el) => {
-        el.addEventListener('click', handleBackdropClick);
+      modal.querySelectorAll(`[data-close="${modalId}"]`).forEach((el) => {
+        el.addEventListener('click', close);
       });
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && activeModal) {
-          closeModal(activeModal);
-        }
-      });
-    })();
+      return { open, close, el: modal };
+    }
+
+    const businessModal = setupModal('business-modal');
+    const termsModal = setupModal('terms-modal');
+    const privacyModal = setupModal('privacy-modal');
+
+    document.getElementById('open-business-modal').addEventListener('click', businessModal.open);
+    document.getElementById('open-terms').addEventListener('click', termsModal.open);
+    document.getElementById('open-privacy').addEventListener('click', privacyModal.open);
+
+    document.getElementById('business-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('form-success').classList.remove('hidden');
+      e.target.querySelector('button[type="submit"]').classList.add('hidden');
+      setTimeout(businessModal.close, 2000);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        [businessModal, termsModal, privacyModal].forEach((m) => m.close());
+      }
+    });
+
+    /* --- אתחול: תצוגה מיידית + עדכון מ-groups.json כשאפשר --- */
+    renderNeighborhoodCards();
+    renderHeroPins();
+    loadGroupsData();
   </script>
 </body>
 </html>
