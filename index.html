@@ -225,6 +225,92 @@
       .hero-pin--right,
       .hero-pin--scatter { animation: none; }
     }
+
+    .hero-cta-media {
+      position: relative;
+      width: min(100%, 34rem);
+      min-height: clamp(16rem, 42vw, 23rem);
+      margin: 0 auto;
+      overflow: visible;
+    }
+
+    .hero-cta-media__video {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-cta-media__button {
+      position: absolute;
+      left: 50%;
+      top: 58%;
+      z-index: 10;
+      transform: translate(-50%, -50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: min(88%, 26rem);
+      min-height: 3.75rem;
+      padding: 0.95rem 1.5rem;
+      border-radius: 999px;
+      background: #5cd373;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.3;
+      box-shadow:
+        0 18px 34px rgba(92, 211, 115, 0.28),
+        0 8px 16px rgba(0, 65, 38, 0.15);
+      transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        background-color 0.22s ease;
+    }
+
+    .hero-cta-media__button:hover {
+      transform: translate(-50%, -50%) scale(1.03);
+      background-color: #52c96a;
+      box-shadow:
+        0 22px 40px rgba(92, 211, 115, 0.34),
+        0 10px 18px rgba(0, 65, 38, 0.18);
+    }
+
+    .hero-cta-media__button:focus-visible {
+      outline: 4px solid rgba(92, 211, 115, 0.28);
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .hero-cta-media {
+        width: min(100%, 23rem);
+        min-height: 14rem;
+      }
+
+      .hero-cta-media__button {
+        top: 60%;
+        width: min(90%, 19rem);
+        min-height: 3.45rem;
+        padding: 0.85rem 1.1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-cta-media__button {
+        transition: none;
+      }
+
+      .hero-cta-media__button:hover {
+        transform: translate(-50%, -50%);
+      }
+    }
   </style>
 </head>
 <body class="bg-cream text-slate-800 antialiased">
@@ -239,7 +325,6 @@
 
       <!-- Desktop nav -->
       <nav class="hidden md:flex items-center justify-center gap-2" aria-label="ניווט ראשי">
-        <a href="#about" class="px-3 py-2 text-sm text-slate-600 hover:text-brand rounded-lg hover:bg-brand/5 transition-colors">אודות</a>
         <a href="#groups" class="px-3 py-2 text-sm text-slate-600 hover:text-brand rounded-lg hover:bg-brand/5 transition-colors">מפת הקבוצות</a>
         <a href="#contact" class="px-3 py-2 text-sm text-slate-600 hover:text-brand rounded-lg hover:bg-brand/5 transition-colors">צור קשר</a>
       </nav>
@@ -252,7 +337,6 @@
 
     <!-- Mobile nav -->
     <nav id="mobile-menu" class="hidden md:hidden border-t border-brand/5 bg-white/95 px-4 py-3 flex flex-col gap-1.5" aria-label="ניווט נייד">
-      <a href="#about" class="mobile-nav-link px-3 py-2.5 text-sm rounded-lg hover:bg-brand/5">אודות</a>
       <a href="#groups" class="mobile-nav-link px-3 py-2.5 text-sm rounded-lg hover:bg-brand/5">מפת הקבוצות</a>
       <a href="#contact" class="mobile-nav-link px-3 py-2.5 text-sm rounded-lg hover:bg-brand/5">צור קשר</a>
     </nav>
@@ -273,28 +357,31 @@
           </p>
           <h1 class="text-2xl leading-tight sm:text-3xl md:text-5xl lg:text-[3.15rem] font-extrabold text-brand tracking-tight mb-3 sm:mb-6 max-w-3xl mx-auto px-1 sm:px-0">
             רשת קבוצות הווצאפ - של נשות ירושלים 
+          </h1>
           <p class="text-sm sm:text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto mb-8 sm:mb-12 px-1 sm:px-0">
-            התחברי לקהילה המקומית שלך, שתפי המלצות, וקבלי עזרה – הכל בלחיצה אחת דרך הבוט הרשמי.
-          </p>
-          <a
-            id="hero-cta"
-            href="#groups"
-            class="pointer-events-auto inline-flex items-center justify-center gap-2 px-9 sm:px-11 py-3.5 sm:py-4 rounded-xl bg-whatsapp text-white font-bold text-base sm:text-lg shadow-lg shadow-whatsapp/25 hover:bg-[#20bd5a] hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-whatsapp/40"
-          >
-          לבחירת קהילת הנשים באזור מגורי            
-            <span aria-hidden="true">↓</span>
-          </a>
-        </div>
-      </div>
-    </section>
+            נשים יקרות כאן המקום שלכן ליצור חיבורים להכיר להשפיע להסתייע בכל דבר שפועם וחשוב לכן. מלחפש מנקה /בייביסיטר ועד ליזום רעיון לשתף ולהתעדכן על פעליות הנעשות באזור מגוריכן❤️       </p>
+          <div class="hero-cta-media pointer-events-none">
+            <video
+              class="hero-cta-media__video pointer-events-none"
+              autoplay
+              loop
+              muted
+              playsinline
+              aria-hidden="true"
+            >
+              <source src="public/gif.webm" type="video/webm">
+            </video>
 
-    <!-- ========== ABOUT ========== -->
-    <section id="about" class="py-14 sm:py-20 bg-white border-y border-slate-100">
-      <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
-        <h2 class="text-xl sm:text-2xl font-bold text-brand mb-4">מה זה קשר עירוני?</h2>
-        <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
-          קשר עירוני מאגד קהילות נשים בוטצפ בכל ירושלים.
-         פלטפורמה של שיתוף סיוע הכוונה מידע על הנעשה בשכונה פעליות ושוטף כאן זה המקום להכיר אחת את השניה ליצור חיבורים ולהיות פעילה.
+            <a
+              id="hero-cta"
+              href="#groups"
+              class="hero-cta-media__button pointer-events-auto"
+            >
+              לבחירת קהילת הנשים באזור מגורי
+              <span aria-hidden="true">↓</span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -333,7 +420,18 @@
         <p id="results-count" class="text-center text-sm text-slate-500 mb-6" aria-live="polite"></p>
 
         <!-- כרטיסיות שכונות – נוצרות דינמית -->
-        <div id="neighborhoods-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+        <div id="neighborhoods-grid" class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5"></div>
+
+        <div id="load-more-wrap" class="mt-7 flex justify-center">
+          <button
+            type="button"
+            id="load-more-groups"
+            class="hidden inline-flex items-center gap-2 rounded-full border border-brand/10 bg-white/90 px-5 py-3 text-sm font-bold text-brand shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/15"
+          >
+            <span>הצג קבוצות נוספות</span>
+            <span aria-hidden="true">↓</span>
+          </button>
+        </div>
 
         <p id="no-results" class="hidden text-center text-slate-500 py-12">לא נמצאו שכונות התואמות לחיפוש. נסי מילה אחרת.</p>
       </div>
@@ -350,15 +448,14 @@
           <div class="relative">
             <h2 class="text-xl sm:text-2xl font-bold mb-4">רוצים את העסק שלכם בלב הקהילה הירושלמית?</h2>
             <p class="text-white/90 text-sm sm:text-base leading-relaxed mb-8 max-w-2xl mx-auto">
-              פרסמו ברשת הקבוצות הגדולה בעיר ותיהנו מחשיפה ממוקדת, אמינה ומניעה לפעולה ישירות לאלפי תושבים בעלי כוח קנייה גבוה. השאירו פרטים, העלו את חומרי הפרסום שלכם ונצא לדרך!
-            </p>
+              יש לכם עסק או שירות שמתאימים לקהילה שלנו? שלחו לנו את חומרי הפרסום שלכם כאן למטה. אנו נבחן את הדברים ונשמח לחזור אליכם במידה והפרסום יימצא רלוונטי.            </p>
             <button
               type="button"
               id="open-business-modal"
               class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white text-brand font-bold text-sm sm:text-base hover:bg-cream transition-colors shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-white/40"
             >
-              העלאת מודעה והשארת פרטים
-              <span aria-hidden="true">←</span>
+            דברו איתנו לפרסום
+            <span aria-hidden="true">→</span>
             </button>
           </div>
         </div>
@@ -380,11 +477,11 @@
     <div class="max-w-5xl mx-auto flex flex-wrap justify-center gap-x-3 gap-y-1 text-[10px] sm:text-xs text-slate-500 text-center">
       <span><span class="text-slate-400">שם:</span> קשר עירוני</span>
       <span class="text-slate-300">|</span>
-      <span><span class="text-slate-400">עוסק:</span> [placeholder: מספר עוסק]</span>
+      <span><span class="text-slate-400">עוסק:</span> 331317859 </span>
       <span class="text-slate-300">|</span>
       <span><span class="text-slate-400">כתובת:</span> ירושלים, ישראל</span>
       <span class="text-slate-300">|</span>
-      <span><span class="text-slate-400">מייל:</span> <a href="mailto:contact@example.com" class="hover:text-brand" dir="ltr">[placeholder: מייל]</a></span>
+      <span><span class="text-slate-400">מייל:</span> <a href="mailto:contact@example.com" class="hover:text-brand" dir="ltr">liorab@kesher-yironi.com</a></span>
     </div>
   </div>
 
@@ -411,11 +508,17 @@
     <div class="absolute inset-0 bg-brand/50 backdrop-blur-sm" data-close="business-modal"></div>
     <div class="relative flex min-h-full items-start sm:items-center justify-center p-4 py-6 overflow-y-auto">
       <div class="w-full max-w-md max-h-[90vh] flex flex-col rounded-2xl bg-white shadow-2xl overflow-hidden my-auto">
-        <div class="flex shrink-0 items-center justify-between border-b px-6 py-4 bg-white">
+        <div class="relative shrink-0 border-b bg-white px-6 pb-5 pt-6 text-center">
+          <button type="button" data-close="business-modal" class="absolute left-4 top-4 rounded-lg p-2 text-slate-500 hover:bg-slate-100" aria-label="סגור">✕</button>
+          <img
+            src="public/logo.jpeg"
+            alt="קשר עירוני"
+            class="mx-auto mb-3 h-12 w-auto max-h-16 object-contain"
+          >
           <h2 id="business-modal-title" class="font-bold text-brand text-lg">פרסום לעסקים</h2>
-          <button type="button" data-close="business-modal" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500" aria-label="סגור">✕</button>
+          <p class="mt-1 text-sm text-slate-500">השאירו פרטים ובחרו אזורי פרסום מתאימים לעסק שלכם</p>
         </div>
-        <form id="business-form" enctype="multipart/form-data" class="overflow-y-auto flex-1 min-h-0 p-6 pb-6 space-y-4">
+        <form id="business-form" enctype="multipart/form-data" class="overflow-y-auto flex-1 min-h-0 px-6 py-6 pb-6 sm:px-8 space-y-4">
           <div>
             <label for="biz-name" class="block text-sm font-medium text-slate-700 mb-1">שם מלא</label>
             <input type="text" id="biz-name" name="name" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none">
@@ -432,6 +535,31 @@
             <label for="biz-email" class="block text-sm font-medium text-slate-700 mb-1">אימייל</label>
             <input type="email" id="biz-email" name="email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none" dir="ltr">
           </div>
+          <fieldset class="w-full min-w-0 overflow-hidden rounded-2xl border border-brand/10 bg-gradient-to-br from-brand/[0.03] via-white to-whatsapp/[0.04] px-4 py-4 sm:px-5">
+            <p class="mb-3 text-right text-sm font-semibold leading-5 text-brand">באילו אזורים/קבוצות תרצו לפרסם? (ניתן לבחור כמה במקביל - לא חובה)</p>
+            <div id="biz-region-options" class="grid w-full min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
+              <label data-region-option class="flex w-full min-w-0 cursor-pointer flex-row-reverse items-center justify-between gap-3 rounded-xl border border-brand/10 bg-white p-3 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-brand/20 hover:shadow-md">
+                <input type="checkbox" name="regions[]" value="אזור צפון" class="biz-region-checkbox h-4 w-4 rounded border-slate-300 text-whatsapp focus:ring-whatsapp/40">
+                <span class="block min-w-0 text-right">אזור צפון</span>
+              </label>
+              <label data-region-option class="flex w-full min-w-0 cursor-pointer flex-row-reverse items-center justify-between gap-3 rounded-xl border border-brand/10 bg-white p-3 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-brand/20 hover:shadow-md">
+                <input type="checkbox" name="regions[]" value="אזור מרכז" class="biz-region-checkbox h-4 w-4 rounded border-slate-300 text-whatsapp focus:ring-whatsapp/40">
+                <span class="block min-w-0 text-right">אזור מרכז</span>
+              </label>
+              <label data-region-option class="flex w-full min-w-0 cursor-pointer flex-row-reverse items-center justify-between gap-3 rounded-xl border border-brand/10 bg-white p-3 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-brand/20 hover:shadow-md">
+                <input type="checkbox" name="regions[]" value="אזור דרום" class="biz-region-checkbox h-4 w-4 rounded border-slate-300 text-whatsapp focus:ring-whatsapp/40">
+                <span class="block min-w-0 text-right">אזור דרום</span>
+              </label>
+              <label data-region-option class="flex w-full min-w-0 cursor-pointer flex-row-reverse items-center justify-between gap-3 rounded-xl border border-brand/10 bg-white p-3 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-brand/20 hover:shadow-md">
+                <input type="checkbox" name="regions[]" value="אזור מערב" class="biz-region-checkbox h-4 w-4 rounded border-slate-300 text-whatsapp focus:ring-whatsapp/40">
+                <span class="block min-w-0 text-right">אזור מערב</span>
+              </label>
+            </div>
+            <label id="biz-help-choose-wrap" class="mt-3 flex w-full min-w-0 cursor-pointer flex-row-reverse items-start justify-between gap-3 rounded-xl border border-whatsapp/20 bg-whatsapp/[0.08] px-4 py-3 text-sm text-slate-700 transition-colors hover:bg-whatsapp/[0.12]">
+              <input type="checkbox" id="biz-help-choose" name="help_choose_region" value="1" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-whatsapp focus:ring-whatsapp/40">
+              <span class="block min-w-0 text-right leading-5"><span class="font-semibold text-brand">אני לא בטוח,</span> אשמח שתתאימו לי את האזור בהתאם לאופי העסק שלי</span>
+            </label>
+          </fieldset>
           <div>
             <label for="biz-msg" class="block text-sm font-medium text-slate-700 mb-1">הודעה (אופציונלי)</label>
             <textarea id="biz-msg" name="message" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none resize-none"></textarea>
@@ -448,12 +576,14 @@
             <p class="mt-1.5 text-xs text-slate-500">קבצים נתמכים: PNG, JPEG או PDF</p>
           </div>
           <button
+            id="business-submit-btn"
             type="submit"
             class="w-full py-3.5 rounded-xl bg-brand text-white font-bold text-base shadow-md shadow-brand/20 hover:bg-brand/90 transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/30"
           >
             שליחת פרטים ופרסום
           </button>
-          <p id="form-success" class="hidden text-center text-sm text-whatsapp font-medium pb-2">תודה! נחזור אליכם בהקדם.</p>
+          <p id="form-success" class="hidden rounded-xl bg-whatsapp/10 px-4 py-3 text-center text-sm font-medium text-[#13854a]">הפנייה נשלחה בהצלחה! נבדוק את ההתאמה ונחזור אלייך במידה ורלוונטי.</p>
+          <p id="form-error" class="hidden rounded-xl bg-rose-50 px-4 py-3 text-center text-sm font-medium text-rose-700">אירעה שגיאה בשליחת הפרטים. נסו שוב בעוד רגע.</p>
         </form>
       </div>
     </div>
@@ -472,7 +602,7 @@
           <p>ברוכות הבאות לקשר עירוני. השימוש באתר ובשירותי הרשת כפוף לתנאים אלה.</p>
           <p><strong>הצטרפות:</strong> ההצטרפות לקבוצות מתבצעת דרך קישורי הווטסאפ המוצגים בכרטיסי השכונות או דרך הבוט המרכזי.</p>
           <p><strong>שימוש:</strong> למטרות קהילתיות וחוקיות בלבד.</p>
-          <p>יצירת קשר: [placeholder: מייל ליצירת קשר]</p>
+          <p>יצירת קשר: liorab@kesher-yironi.com </p>
         </div>
         <div class="border-t px-6 py-4 shrink-0">
           <button type="button" data-close="terms-modal" class="px-5 py-2 rounded-xl bg-brand text-white text-sm">סגור</button>
@@ -494,7 +624,7 @@
           <p>קשר עירוני מחויבת להגן על פרטיות המשתמשים, בפרט בהקשר של WhatsApp.</p>
           <p><strong>נתונים:</strong> מספר טלפון, שם, שכונה – לתפעול השירות בלבד.</p>
           <p><strong>שיתוף:</strong> איננו מוכרים נתונים אישיים למטרות שיווק.</p>
-          <p>פניות: [placeholder: מייל ליצירת קשר]</p>
+          <p>פניות: liorab@kesher-yironi.com</p>
         </div>
         <div class="border-t px-6 py-4 shrink-0">
           <button type="button" data-close="privacy-modal" class="px-5 py-2 rounded-xl bg-whatsapp text-white text-sm">סגור</button>
@@ -519,25 +649,32 @@
       { name: 'נווה יעקב', region: 'צפון' },
       { name: 'פסגת זאב', region: 'צפון' },
       { name: 'גבעה צרפתית', region: 'צפון' },
-      { name: 'שכונת הבוכרים', region: 'צפון' },
       { name: 'שמואל הנביא', region: 'צפון' },
+      { name: 'שכונת הבוכרים / שמואל הנביא', region: 'צפון' },
       { name: 'רמת אשכול', region: 'צפון' },
       { name: 'רמת שלמה', region: 'צפון' },
       { name: 'גבעת זאב', region: 'צפון' },
-      { name: 'עין כרם', region: 'מערב' },
+      { name: 'קהילת נשות רמות', region: 'צפון' },
+      { name: 'תתושבי שכונת רמות', region: 'צפון' },
+      { name: 'רמות והגבעה', region: 'צפון' },
+      { name: 'משק בית רמות', region: 'צפון' },
+      { name: 'נדלן רמות והסביבה', region: 'צפון' },
+      { name: 'נשות רמות 2', region: 'צפון' },
+      { name: 'דרושים רמות הר חוצבים', region: 'צפון' },
+      { name: 'רחביה', region: 'מרכז' },
+      { name: 'טלביה', region: 'מרכז' },
+      { name: 'מוסררה', region: 'מרכז' },
+      { name: 'משכנות האומה', region: 'מרכז' },
+      { name: 'נחלאות', region: 'מרכז' },
+      { name: 'רוממה', region: 'מרכז' },
+      { name: 'קטמון', region: 'מרכז' },
+      { name: 'המושבה הגרמנית', region: 'מרכז' },
       { name: 'בית וגן', region: 'מערב' },
       { name: 'גבעת שאול', region: 'מערב' },
       { name: 'הר נוף', region: 'מערב' },
       { name: 'בית הכרם', region: 'מערב' },
-      { name: 'נחלאות', region: 'מרכז' },
-      { name: 'קטמון', region: 'מרכז' },
-      { name: 'רחביה', region: 'מרכז' },
-      { name: 'המושבה הגרמנית', region: 'מרכז' },
-      { name: 'טלביה', region: 'מרכז' },
-      { name: 'מוסררה', region: 'מרכז' },
-      { name: 'משכנות האומה', region: 'מרכז' },
-      { name: 'רוממה', region: 'מרכז' },
-      { name: 'קרית יובל', region: 'דרום' },
+      { name: 'קרית יובל', region: 'מערב' },
+      { name: 'עין כרם', region: 'מערב' },
       { name: 'גבעת מרדכי', region: 'דרום' },
       { name: 'גבעת משואה', region: 'דרום' },
       { name: 'מלחה', region: 'דרום' },
@@ -546,7 +683,16 @@
       { name: 'בקעה', region: 'דרום' },
       { name: 'ארנונה', region: 'דרום' },
       { name: 'גילה', region: 'דרום' },
-      { name: 'הר חומה', region: 'דרום' }
+      { name: 'הר חומה', region: 'דרום' },
+      { name: 'בייביסיטר', region: 'כללי' },
+      { name: 'צריכים משהו חסד 1', region: 'כללי' },
+      { name: 'צריכים משהו חסד 2', region: 'כללי' },
+      { name: 'דירות להשכרה 2', region: 'כללי' },
+      { name: 'דרושים 2', region: 'כללי' },
+      { name: 'תושבות ירושלים 1', region: 'כללי' },
+      { name: 'תושבות ירושלים 3', region: 'כללי' },
+      { name: 'תושבות ירושלים 6', region: 'כללי' },
+      { name: 'תושבות ירושלים 5', region: 'כללי' }
     ];
 
     const HERO_MD_QUERY = '(min-width: 768px)';
@@ -753,62 +899,93 @@
     const searchInput = document.getElementById('search-input');
     const resultsCount = document.getElementById('results-count');
     const noResults = document.getElementById('no-results');
+    const loadMoreBtn = document.getElementById('load-more-groups');
     const filterBtns = document.querySelectorAll('.filter-btn');
 
     let activeRegion = 'all';
     let searchQuery = '';
+    const GROUPS_BATCH_SIZE = 12;
+    let visibleGroupsLimit = GROUPS_BATCH_SIZE;
+
+    function isDefaultGroupsView() {
+      return activeRegion === 'all' && !searchQuery.trim();
+    }
+
+    function getFilteredNeighborhoods() {
+      const q = searchQuery.trim().toLowerCase();
+
+      return allNeighborhoods.filter((nb) => {
+        const matchRegion = activeRegion === 'all' || nb.region === activeRegion;
+        const matchSearch = !q || nb.name.toLowerCase().includes(q);
+        return matchRegion && matchSearch;
+      });
+    }
 
     /* --- רינדור כרטיסי שכונות --- */
     function renderNeighborhoodCards() {
       const q = searchQuery.trim().toLowerCase();
-      let visible = 0;
+      const filteredNeighborhoods = getFilteredNeighborhoods();
+      const defaultView = isDefaultGroupsView();
+      const visibleNeighborhoods = defaultView
+        ? filteredNeighborhoods.slice(0, visibleGroupsLimit)
+        : filteredNeighborhoods;
 
       gridEl.innerHTML = '';
 
-      allNeighborhoods.forEach((nb) => {
-        const matchRegion = activeRegion === 'all' || nb.region === activeRegion;
-        const matchSearch = !q || nb.name.toLowerCase().includes(q);
-        const show = matchRegion && matchSearch;
+      visibleNeighborhoods.forEach((nb) => {
+        const card = document.createElement('a');
+        const safeRegion = escapeHtml(nb.region);
+        const safeName = escapeHtml(nb.name);
 
-        const card = document.createElement('article');
-        card.className = 'nb-card glass-card rounded-2xl p-4 sm:p-5 shadow-glass hover:shadow-lg transition-all duration-300 border border-white/50 flex flex-col' + (show ? '' : ' hidden-card');
-        card.dataset.name = nb.name;
-        card.dataset.region = nb.region;
-
-        if (show) visible++;
-
+        card.href = buildWhatsAppLink(nb.name);
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.setAttribute('aria-label', `הצטרפות לקבוצת ${nb.name} בווטסאפ`);
+        card.className = 'nb-card group glass-card relative flex min-h-[7rem] flex-col justify-between rounded-2xl border border-white/60 bg-white/80 p-3 shadow-glass transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-4 focus-visible:ring-whatsapp/35 sm:min-h-[7.5rem] sm:p-4';
         card.innerHTML = `
-          <div class="flex items-start justify-between gap-2 mb-3">
-            <div class="min-w-0">
-              <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-brand/10 text-brand mb-1.5">${nb.region}</span>
-              <h3 class="text-lg font-bold text-brand leading-snug">${nb.name}</h3>
-            </div>
-            <span class="shrink-0 flex h-9 w-9 items-center justify-center rounded-lg bg-whatsapp/15 text-whatsapp" aria-hidden="true">
-              <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.882 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <div class="mb-3 flex items-start justify-between gap-2">
+            <span class="inline-flex max-w-full items-center rounded-full bg-brand/10 px-2.5 py-1 text-[11px] font-semibold text-brand">${safeRegion}</span>
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-whatsapp/12 text-whatsapp transition-colors duration-200 group-hover:bg-whatsapp/20" aria-hidden="true">
+              <svg class="h-[17px] w-[17px]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.882 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             </span>
           </div>
-          <a
-            href="${buildWhatsAppLink(nb.name)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mt-auto flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-whatsapp text-white font-bold text-sm hover:bg-[#20bd5a] transition-colors shadow-md shadow-whatsapp/20 focus:outline-none focus-visible:ring-4 focus-visible:ring-whatsapp/40"
-          >
-            להצטרפות לקבוצה
-          </a>
+          <div class="mt-auto min-w-0">
+            <h3 class="text-sm font-bold leading-snug text-brand sm:text-base">${safeName}</h3>
+          </div>
         `;
 
         gridEl.appendChild(card);
       });
 
-      resultsCount.textContent = visible
-        ? `מוצגות ${visible} קבוצות${activeRegion !== 'all' ? ' באזור ' + activeRegion : ''}`
-        : '';
-      noResults.classList.toggle('hidden', visible > 0);
+      if (!filteredNeighborhoods.length) {
+        resultsCount.textContent = '';
+      } else if (defaultView && filteredNeighborhoods.length > visibleNeighborhoods.length) {
+        resultsCount.textContent = `מוצגות ${visibleNeighborhoods.length} מתוך ${filteredNeighborhoods.length} קבוצות`;
+      } else if (activeRegion !== 'all') {
+        resultsCount.textContent = `מוצגות ${filteredNeighborhoods.length} קבוצות באזור ${activeRegion}`;
+      } else if (q) {
+        resultsCount.textContent = `נמצאו ${filteredNeighborhoods.length} קבוצות`;
+      } else {
+        resultsCount.textContent = `מוצגות ${filteredNeighborhoods.length} קבוצות`;
+      }
+
+      const hasLoadMoreToggle = defaultView && filteredNeighborhoods.length > GROUPS_BATCH_SIZE;
+      const isGroupsExpanded = hasLoadMoreToggle && visibleNeighborhoods.length >= filteredNeighborhoods.length;
+
+      loadMoreBtn.classList.toggle('hidden', !hasLoadMoreToggle);
+      if (hasLoadMoreToggle) {
+        loadMoreBtn.innerHTML = isGroupsExpanded
+          ? '<span>צמצום קבוצות</span><span aria-hidden="true">↑</span>'
+          : '<span>הצג קבוצות נוספות</span><span aria-hidden="true">↓</span>';
+      }
+
+      noResults.classList.toggle('hidden', filteredNeighborhoods.length > 0);
     }
 
     /* --- חיפוש וסינון --- */
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
+      visibleGroupsLimit = GROUPS_BATCH_SIZE;
       renderNeighborhoodCards();
     });
 
@@ -817,8 +994,26 @@
         filterBtns.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
         activeRegion = btn.dataset.region;
+        visibleGroupsLimit = GROUPS_BATCH_SIZE;
         renderNeighborhoodCards();
       });
+    });
+
+    loadMoreBtn.addEventListener('click', () => {
+      if (!isDefaultGroupsView()) return;
+
+      const filteredNeighborhoods = getFilteredNeighborhoods();
+      const isGroupsExpanded = visibleGroupsLimit >= filteredNeighborhoods.length;
+
+      if (isGroupsExpanded) {
+        visibleGroupsLimit = GROUPS_BATCH_SIZE;
+        renderNeighborhoodCards();
+        document.getElementById('groups')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+
+      visibleGroupsLimit += GROUPS_BATCH_SIZE;
+      renderNeighborhoodCards();
     });
 
     /* --- ניווט נייד --- */
@@ -865,16 +1060,121 @@
     const businessModal = setupModal('business-modal');
     const termsModal = setupModal('terms-modal');
     const privacyModal = setupModal('privacy-modal');
+    const businessForm = document.getElementById('business-form');
+    const businessSubmitBtn = document.getElementById('business-submit-btn');
+    const businessFormSuccess = document.getElementById('form-success');
+    const businessFormError = document.getElementById('form-error');
+    const helpChooseRegionCheckbox = document.getElementById('biz-help-choose');
+    const businessRegionCheckboxes = document.querySelectorAll('.biz-region-checkbox');
+    const businessRegionOptions = document.querySelectorAll('[data-region-option]');
+    const BUSINESS_FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5b0DxqxRQZ3Q6Q5QIgAnqNoKQlHC_vNoWTb5c2sT68YThlR-UfUaV5OTr-TCy_YXC/exec';
+    const BUSINESS_SUBMIT_DEFAULT_TEXT = businessSubmitBtn?.textContent?.trim() || 'שליחת פרטים ופרסום';
 
-    document.getElementById('open-business-modal').addEventListener('click', businessModal.open);
+    function syncBusinessRegionSelection() {
+      const helpChooseChecked = helpChooseRegionCheckbox?.checked;
+
+      businessRegionCheckboxes.forEach((checkbox, index) => {
+        checkbox.disabled = !!helpChooseChecked;
+        if (helpChooseChecked) checkbox.checked = false;
+
+        const option = businessRegionOptions[index];
+        option?.classList.toggle('opacity-50', !!helpChooseChecked);
+        option?.classList.toggle('pointer-events-none', !!helpChooseChecked);
+        option?.classList.toggle('shadow-none', !!helpChooseChecked);
+      });
+    }
+
+    function openBusinessModalFromHash() {
+      if (window.location.hash !== '#advertise') return;
+
+      businessModal.open();
+
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        businessModal.el?.querySelector('#business-form')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      });
+    }
+
+    function resetBusinessFormMessages() {
+      businessFormSuccess?.classList.add('hidden');
+      businessFormError?.classList.add('hidden');
+      if (businessFormSuccess) businessFormSuccess.textContent = 'הפנייה נשלחה בהצלחה! נבדוק את ההתאמה ונחזור אלייך במידה ורלוונטי.';
+      if (businessFormError) businessFormError.textContent = 'אירעה שגיאה בשליחת הפרטים. נסו שוב בעוד רגע.';
+    }
+
+    function openBusinessLeadModal() {
+      resetBusinessFormMessages();
+      businessModal.open();
+    }
+
+    document.getElementById('open-business-modal').addEventListener('click', openBusinessLeadModal);
     document.getElementById('open-terms').addEventListener('click', termsModal.open);
     document.getElementById('open-privacy').addEventListener('click', privacyModal.open);
+    helpChooseRegionCheckbox?.addEventListener('change', syncBusinessRegionSelection);
+    syncBusinessRegionSelection();
+    resetBusinessFormMessages();
+    window.addEventListener('DOMContentLoaded', openBusinessModalFromHash);
 
-    document.getElementById('business-form').addEventListener('submit', (e) => {
+    businessForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      document.getElementById('form-success').classList.remove('hidden');
-      e.target.querySelector('button[type="submit"]').classList.add('hidden');
-      setTimeout(businessModal.close, 2000);
+      resetBusinessFormMessages();
+
+      const selectedRegions = Array.from(businessRegionCheckboxes)
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => checkbox.value);
+
+      const payload = {
+        name: document.getElementById('biz-name')?.value.trim() || '',
+        phone: document.getElementById('biz-phone')?.value.trim() || '',
+        email: document.getElementById('biz-email')?.value.trim() || '',
+        company: document.getElementById('biz-company')?.value.trim() || '',
+        message: document.getElementById('biz-msg')?.value.trim() || '',
+        regions: selectedRegions,
+        notSure: !!helpChooseRegionCheckbox?.checked,
+        adFileName: document.getElementById('biz-ad')?.files?.[0]?.name || ''
+      };
+
+      if (businessSubmitBtn) {
+        businessSubmitBtn.disabled = true;
+        businessSubmitBtn.textContent = 'שולח...';
+        businessSubmitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+      }
+
+      try {
+        const response = await fetch(BUSINESS_FORM_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        businessForm.reset();
+        syncBusinessRegionSelection();
+        if (businessFormSuccess) {
+          businessFormSuccess.textContent = 'הפנייה נשלחה בהצלחה! נבדוק את ההתאמה ונחזור אלייך במידה ורלוונטי.';
+          businessFormSuccess.classList.remove('hidden');
+        }
+      } catch (error) {
+        console.error('Business form submission failed:', error);
+        if (businessFormError) {
+          businessFormError.textContent = 'אירעה שגיאה בשליחת הפרטים. בדקו את החיבור ונסו שוב.';
+          businessFormError.classList.remove('hidden');
+        }
+      } finally {
+        if (businessSubmitBtn) {
+          businessSubmitBtn.disabled = false;
+          businessSubmitBtn.textContent = BUSINESS_SUBMIT_DEFAULT_TEXT;
+          businessSubmitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+        }
+      }
     });
 
     document.addEventListener('keydown', (e) => {
